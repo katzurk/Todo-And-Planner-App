@@ -1,11 +1,17 @@
 const express = require("express");
+const db = require("./db");
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("<h1>Hello, Express.js Server!</h1>");
+app.get("/", async (req, res) => {
+  try {
+    const result = await db.query("SELECT NOW() AS current_time;");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
 });
