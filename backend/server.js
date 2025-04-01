@@ -12,6 +12,9 @@ app.get("/", async (req, res) => {
   }
 });
 
+const listsRoute = require("./routes/my-lists");
+app.use("/my-lists", listsRoute);
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
