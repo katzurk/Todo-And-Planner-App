@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.task {
+  border: solid, black;
+  display: flex;
+  margin: 10px;
+}
+
+.task.checked {
+  background-color: cadetblue;
+}
+
+.task > * {
+  margin: 10px;
+}
+
+.list {
+  border: solid, black;
+  padding: 30px;
+  display: block;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button.check {
+  margin-left: auto;
+}
