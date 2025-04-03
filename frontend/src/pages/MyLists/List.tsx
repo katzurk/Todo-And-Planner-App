@@ -1,4 +1,3 @@
-import React from "react";
 import { Task, TaskInterface } from "./Task";
 
 export interface ListInterface {

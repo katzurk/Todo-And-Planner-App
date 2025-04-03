@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import { toggleTask } from "../../services/ListService";
 
 export interface TaskInterface {
   task_id: number;
@@ -15,9 +15,7 @@ export const Task = (props: TaskInterface) => {
   const queryClient = useQueryClient();
 
   const mutatation = useMutation({
-    mutationFn: (task_id: number) => {
-      return axios.put(`/my-lists?task_id=${task_id}`);
-    },
+    mutationFn: toggleTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["list"] });
       navigate("/my-lists");
