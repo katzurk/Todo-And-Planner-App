@@ -28,15 +28,6 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .task {
   border: solid, black;
   display: flex;
@@ -51,15 +42,42 @@
   margin: 10px;
 }
 
+.task-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .list {
   border: solid, black;
   padding: 30px;
   display: block;
   width: 40%;
+  margin: 20px;
   margin-left: auto;
   margin-right: auto;
 }
 
 button.check {
   margin-left: auto;
+}
+
+.navbar {
+  border: solid, black;
+  height: 80px;
+  display: block;
+}
+
+.offcanvas {
+  width: 400px;
+}
+
+.offcanvas-header {
+  border: solid, black;
+  height: 80px;
+}
+
+.side-bar .offcanvas-body {
+  border: solid, black;
+  border-top: none;
+  background-color: white;
 }

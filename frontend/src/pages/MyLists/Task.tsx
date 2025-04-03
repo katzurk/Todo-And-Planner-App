@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toggleTask } from "../../services/ListService";
+import { useState } from "react";
 
 export interface TaskInterface {
   task_id: number;
@@ -13,9 +13,13 @@ export interface TaskInterface {
 export const Task = (props: TaskInterface) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isChecked, setIsChecked] = useState(props.is_done);
 
   const mutatation = useMutation({
     mutationFn: toggleTask,
+    onMutate: () => {
+      setIsChecked((prev) => !prev);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["list"] });
       navigate("/my-lists");
@@ -30,7 +34,7 @@ export const Task = (props: TaskInterface) => {
   };
 
   return (
-    <div className={`task ${props.is_done ? "checked" : ""}`}>
+    <div className={`task ${isChecked ? "checked" : ""}`}>
       <h1>
         {props.position_order}. {props.text}
       </h1>
