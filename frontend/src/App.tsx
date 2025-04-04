@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Home } from "./pages/Home";
 import { MyLists } from "./pages/MyLists/MyLists";
 import { Navbar } from "./components/Navbar";
+import { EditList } from "./pages/EditList/EditList";
 
 function App() {
   const client = new QueryClient();
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/my-lists" element={<MyLists />} />
+            <Route path="/edit-list/:list_id" element={<EditList />} />
           </Routes>
         </Router>
       </QueryClientProvider>

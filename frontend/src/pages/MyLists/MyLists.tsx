@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllLists } from "../../services/ListService";
+import { ListService } from "../../services/ListService";
 import { List, ListInterface } from "./List";
 
 export const MyLists = () => {
   const { data } = useQuery({
-    queryKey: ["list"],
-    queryFn: getAllLists,
+    queryKey: ["lists"],
+    queryFn: ListService.getAllLists,
   });
 
   return (

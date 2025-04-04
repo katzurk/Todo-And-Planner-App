@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { toggleTask } from "../../services/ListService";
+import { ListService } from "../../services/ListService";
 import { useState } from "react";
 
 export interface TaskInterface {
@@ -16,7 +16,7 @@ export const Task = (props: TaskInterface) => {
   const [isChecked, setIsChecked] = useState(props.is_done);
 
   const mutatation = useMutation({
-    mutationFn: toggleTask,
+    mutationFn: ListService.toggleTask,
     onMutate: () => {
       setIsChecked((prev) => !prev);
     },
