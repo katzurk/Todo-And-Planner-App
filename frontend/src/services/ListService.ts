@@ -2,7 +2,7 @@ import axios from "axios";
 import { ListInterface } from "../pages/MyLists/List";
 
 interface moveTaskParams {
-  list_id: string | undefined;
+  list_id: number;
   task_id: number;
   direction: string;
 }
@@ -18,7 +18,7 @@ async function getAllLists(): Promise<ListInterface[] | null> {
 }
 
 async function getListByListId(
-  list_id: string | undefined
+  list_id: number | string | undefined
 ): Promise<ListInterface | null> {
   try {
     const res = await axios.get(`/edit-list/${list_id}`);

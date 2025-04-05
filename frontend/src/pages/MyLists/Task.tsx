@@ -4,6 +4,7 @@ import { ListService } from "../../services/ListService";
 import { useState } from "react";
 
 export interface TaskInterface {
+  list_id: number;
   task_id: number;
   text: string;
   position_order: number;
@@ -15,7 +16,7 @@ export const Task = (props: TaskInterface) => {
   const queryClient = useQueryClient();
   const [isChecked, setIsChecked] = useState(props.is_done);
 
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: ListService.toggleTask,
     onMutate: () => {
       setIsChecked((prev) => !prev);
@@ -30,7 +31,7 @@ export const Task = (props: TaskInterface) => {
   });
 
   const checkTask = (task_id: number) => {
-    mutatation.mutate(task_id);
+    mutation.mutate(task_id);
   };
 
   return (

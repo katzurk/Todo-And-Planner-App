@@ -117,5 +117,24 @@ label {
 }
 
 .task-edit {
-  display: inline-block;
+  border: solid, black;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+}
+
+.task-edit .form-element {
+  width: 90%;
+}
+
+.move-buttons {
+  border: solid, black;
+  margin: 10px;
+  margin-left: auto;
+}
+
+.move-buttons button {
+  width: 100%;
 }
