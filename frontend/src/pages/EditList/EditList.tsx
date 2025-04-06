@@ -1,25 +1,53 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ListService } from "../../services/ListService";
-import { useNavigate, useParams } from "react-router-dom";
 import { TaskInterface } from "../MyLists/Task";
 import { TaskInput } from "./TaskInput";
+import { useEffect, useState } from "react";
+import { ListInterface } from "../MyLists/List";
+import { useParams } from "react-router-dom";
 
 export const EditList = () => {
   const { list_id } = useParams();
+  const [list, setList] = useState<ListInterface | null>(null);
 
   const { data } = useQuery({
     queryKey: ["list"],
     queryFn: () => ListService.getListByListId(list_id),
   });
 
+  useEffect(() => {
+    if (data) {
+      setList(data);
+    }
+  }, [data]);
+
+  const moveTask = (task_id: number, direction: "up" | "down") => {
+    if (!list) return;
+    const index = list.tasks.findIndex((task) => task.task_id === task_id);
+    if (index === -1) return;
+
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= list.tasks.length) return;
+
+    const newTasks = [...list.tasks];
+    const currentPos = newTasks[index].position_order;
+    newTasks[index].position_order = newTasks[swapIndex].position_order;
+    newTasks[swapIndex].position_order = currentPos;
+    setList({ ...list, tasks: newTasks });
+  };
+
+  const sortedTasks = list?.tasks.sort(
+    (a, b) => a.position_order - b.position_order
+  );
+
   return (
     <form>
       <div className="form-element">
         <label>Title</label>
-        <input type="text" value={data?.title} />
+        <input type="text" value={list?.title} />
       </div>
-      {data?.tasks?.map((task: TaskInterface) => (
-        <TaskInput {...task} />
+      {sortedTasks?.map((task: TaskInterface) => (
+        <TaskInput {...task} onMove={moveTask} />
       ))}
       <input type="submit" value="Save" />
     </form>

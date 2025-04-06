@@ -1,29 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TaskInterface } from "../MyLists/Task";
-import { useNavigate } from "react-router-dom";
-import { ListService } from "../../services/ListService";
-import { useState } from "react";
 
-export const TaskInput = (props: TaskInterface) => {
-  const { list_id, task_id } = props;
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+interface TaskInputInterface extends TaskInterface {
+  onMove: (task_id: number, direction: "up" | "down") => void;
+}
 
-  const mutation = useMutation({
-    mutationFn: ListService.changePosition,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["list"] });
-      navigate(`/edit-list/${list_id}`);
-    },
-    onError: (error) => {
-      console.error("Error moving task:", error);
-    },
-  });
-
-  const moveTask = (direction: string) => {
-    mutation.mutate({ list_id, task_id, direction });
-  };
-
+export const TaskInput = (props: TaskInputInterface) => {
   return (
     <div className="task-edit">
       <div className="form-element">
@@ -31,10 +12,13 @@ export const TaskInput = (props: TaskInterface) => {
         <input type="text" value={props.text} />
       </div>
       <div className="move-buttons">
-        <button type="button" onClick={() => moveTask("up")}>
+        <button type="button" onClick={() => props.onMove(props.task_id, "up")}>
           UP
         </button>
-        <button type="button" onClick={() => moveTask("down")}>
+        <button
+          type="button"
+          onClick={() => props.onMove(props.task_id, "down")}
+        >
           DOWN
         </button>
       </div>
