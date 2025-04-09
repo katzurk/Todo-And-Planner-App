@@ -48,6 +48,10 @@ export const EditList = () => {
     }
   };
 
+  const updateTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setList((prevList: any) => ({ ...prevList, title: e.target.value }));
+  };
+
   const sortedTasks = list?.tasks.sort(
     (a, b) => a.position_order - b.position_order
   );
@@ -56,7 +60,7 @@ export const EditList = () => {
     <form>
       <div className="form-element">
         <label>Title</label>
-        <input type="text" value={list?.title} />
+        <input type="text" value={list?.title} onChange={updateTitle} />
       </div>
       {sortedTasks?.map((task: TaskInterface) => (
         <TaskInput
