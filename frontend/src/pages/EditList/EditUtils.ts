@@ -19,6 +19,18 @@ function moveTask(
   return newTasks;
 }
 
+function deleteTask(task_id: number, tasks: TaskInterface[]): TaskInterface[] {
+  const index = tasks.findIndex((task) => task.task_id === task_id);
+  const newTasks = [...tasks];
+  newTasks.splice(index, 1);
+
+  return newTasks.map((task, idx) => ({
+    ...task,
+    position_order: idx + 1,
+  }));
+}
+
 export const EditUtils = {
   moveTask,
+  deleteTask,
 };

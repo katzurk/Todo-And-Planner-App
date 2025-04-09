@@ -14,6 +14,7 @@ export const EditList = () => {
   const { data } = useQuery({
     queryKey: ["list"],
     queryFn: () => ListService.getListByListId(list_id),
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
@@ -29,6 +30,13 @@ export const EditList = () => {
     }
   };
 
+  const deleteTask = (task_id: number) => {
+    if (list) {
+      const newTasks = EditUtils.deleteTask(task_id, list.tasks);
+      setList((prevLlist: any) => ({ ...prevLlist, tasks: newTasks }));
+    }
+  };
+
   const sortedTasks = list?.tasks.sort(
     (a, b) => a.position_order - b.position_order
   );
@@ -40,7 +48,7 @@ export const EditList = () => {
         <input type="text" value={list?.title} />
       </div>
       {sortedTasks?.map((task: TaskInterface) => (
-        <TaskInput {...task} onMove={moveTask} />
+        <TaskInput {...task} onMove={moveTask} onDelete={deleteTask} />
       ))}
       <input type="submit" value="Save" />
     </form>
