@@ -5,6 +5,7 @@ import { TaskInput } from "./TaskInput";
 import { useEffect, useState } from "react";
 import { ListInterface } from "../MyLists/List";
 import { useParams } from "react-router-dom";
+import { EditUtils } from "./EditUtils";
 
 export const EditList = () => {
   const { list_id } = useParams();
@@ -22,18 +23,10 @@ export const EditList = () => {
   }, [data]);
 
   const moveTask = (task_id: number, direction: "up" | "down") => {
-    if (!list) return;
-    const index = list.tasks.findIndex((task) => task.task_id === task_id);
-    if (index === -1) return;
-
-    const swapIndex = direction === "up" ? index - 1 : index + 1;
-    if (swapIndex < 0 || swapIndex >= list.tasks.length) return;
-
-    const newTasks = [...list.tasks];
-    const currentPos = newTasks[index].position_order;
-    newTasks[index].position_order = newTasks[swapIndex].position_order;
-    newTasks[swapIndex].position_order = currentPos;
-    setList({ ...list, tasks: newTasks });
+    if (list) {
+      const newTasks = EditUtils.moveTask(task_id, direction, list.tasks);
+      setList((prevList: any) => ({ ...prevList, tasks: newTasks }));
+    }
   };
 
   const sortedTasks = list?.tasks.sort(
