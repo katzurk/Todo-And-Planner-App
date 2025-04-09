@@ -37,6 +37,17 @@ export const EditList = () => {
     }
   };
 
+  const updateTask = (task_id: number, text: string) => {
+    if (list) {
+      const newTasks = EditUtils.updateTask(
+        task_id,
+        { text: text },
+        list.tasks
+      );
+      setList((prevList: any) => ({ ...prevList, tasks: newTasks }));
+    }
+  };
+
   const sortedTasks = list?.tasks.sort(
     (a, b) => a.position_order - b.position_order
   );
@@ -48,7 +59,12 @@ export const EditList = () => {
         <input type="text" value={list?.title} />
       </div>
       {sortedTasks?.map((task: TaskInterface) => (
-        <TaskInput {...task} onMove={moveTask} onDelete={deleteTask} />
+        <TaskInput
+          {...task}
+          onMove={moveTask}
+          onDelete={deleteTask}
+          onUpdate={updateTask}
+        />
       ))}
       <input type="submit" value="Save" />
     </form>

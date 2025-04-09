@@ -30,7 +30,18 @@ function deleteTask(task_id: number, tasks: TaskInterface[]): TaskInterface[] {
   }));
 }
 
+function updateTask(
+  task_id: number,
+  updatedFields: Partial<TaskInterface>,
+  tasks: TaskInterface[]
+): TaskInterface[] {
+  return tasks.map((task) =>
+    task.task_id === task_id ? { ...task, ...updatedFields } : task
+  );
+}
+
 export const EditUtils = {
   moveTask,
   deleteTask,
+  updateTask,
 };
