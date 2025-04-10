@@ -15,47 +15,29 @@ router.get("/:list_id", async (req, res) => {
   }
 });
 
-// router.put("/:list_id", async (req, res) => {
-//   const { task_id, direction } = req.query;
-//   const list_id = req.params.list_id;
+router.put("/:list_id/submit", async (req, res) => {
+  const newTasks = req.body.newTasks;
+  const list_id = req.params.list_id;
 
-//   if (!["up", "down"].includes(direction)) {
-//     return res.status(400).json({ message: "Invalid direction" });
-//   }
+  if (!Array.isArray(newTasks)) {
+    return res.status(400).json({ message: "Invalid data format" });
+  }
 
-//   try {
-//     const result = await db.query(
-//       "SELECT position_order FROM TASKS WHERE task_id = $1;",
-//       [task_id]
-//     );
-//     const task = result.rows[0];
-
-//     const currentPos = task.position_order;
-//     const newPos = direction === "up" ? currentPos - 1 : currentPos + 1;
-
-//     const taskResult = await db.query(
-//       "SELECT task_id FROM TASKS WHERE position_order = $1 AND list_id = $2;",
-//       [newPos, list_id]
-//     );
-
-//     if (taskResult.rowCount === 0) {
-//       return res.status(400).json({ message: "Can't move that direction" });
-//     }
-
-//     const taskAboveId = taskResult.rows[0].task_id;
-//     await db.query("UPDATE TASKS SET position_order = $1 WHERE task_id = $2;", [
-//       currentPos,
-//       taskAboveId,
-//     ]);
-//     await db.query("UPDATE TASKS SET position_order = $1 WHERE task_id = $2;", [
-//       newPos,
-//       task_id,
-//     ]);
-//     res.json({ message: "Changed positions" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
+  try {
+    const resultDel = await db.query("DELETE FROM TASKS WHERE list_id = $1;", [
+      list_id,
+    ]);
+    for (const task of newTasks) {
+      const resultIns = await db.query(
+        "INSERT INTO TASKS (list_id, task_id, text, position_order) VALUES ($1, $2, $3, $4);",
+        [list_id, task.task_id, task.text, task.position_order]
+      );
+    }
+    res.json({ message: "Updated" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;

@@ -52,12 +52,18 @@ export const EditList = () => {
     setList((prevList: any) => ({ ...prevList, title: e.target.value }));
   };
 
+  const handleSubmit = () => {
+    if (list) {
+      ListService.submitChangedList(list_id, list.tasks);
+    }
+  };
+
   const sortedTasks = list?.tasks.sort(
     (a, b) => a.position_order - b.position_order
   );
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="form-element">
         <label>Title</label>
         <input type="text" value={list?.title} onChange={updateTitle} />

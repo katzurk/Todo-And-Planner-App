@@ -12,6 +12,8 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.use(express.json());
+
 const listsRoute = require("./routes/my-lists");
 app.use("/my-lists", listsRoute);
 
