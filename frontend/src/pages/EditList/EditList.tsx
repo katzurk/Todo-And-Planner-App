@@ -4,10 +4,11 @@ import { TaskInterface } from "../MyLists/Task";
 import { TaskInput } from "./TaskInput";
 import { useEffect, useState } from "react";
 import { ListInterface } from "../MyLists/List";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { EditUtils } from "./EditUtils";
 
 export const EditList = () => {
+  const navigate = useNavigate();
   const { list_id } = useParams();
   const [list, setList] = useState<ListInterface | null>(null);
 
@@ -48,13 +49,20 @@ export const EditList = () => {
     }
   };
 
+  const addTask = () => {
+    if (list) {
+      setList(EditUtils.addTask(list));
+    }
+  };
+
   const updateTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setList((prevList: any) => ({ ...prevList, title: e.target.value }));
   };
 
   const handleSubmit = () => {
     if (list) {
-      ListService.submitChangedList(list_id, list.tasks);
+      ListService.submitChangedList(list);
+      navigate("/my-lists");
     }
   };
 
@@ -76,7 +84,12 @@ export const EditList = () => {
           onUpdate={updateTask}
         />
       ))}
-      <input type="submit" value="Save" />
+      <div>
+        <input type="submit" value="Save" />
+        <button type="button" onClick={() => addTask()}>
+          Add task
+        </button>
+      </div>
     </form>
   );
 };

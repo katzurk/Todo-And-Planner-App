@@ -28,11 +28,16 @@ async function toggleTask(task_id: number) {
   return axios.put(`/my-lists`, null, { params: { task_id } });
 }
 
-async function submitChangedList(
-  list_id: string | undefined,
-  newTasks: TaskInterface[]
-) {
-  return axios.put(`/edit-list/${list_id}/submit`, { newTasks: newTasks });
+async function submitChangedList(list: ListInterface) {
+  try {
+    return axios.put(`/edit-list/${list.list_id}/submit`, {
+      newTasks: list.tasks,
+      title: list.title,
+    });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 export const ListService = {

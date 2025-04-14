@@ -17,6 +17,7 @@ router.get("/:list_id", async (req, res) => {
 
 router.put("/:list_id/submit", async (req, res) => {
   const newTasks = req.body.newTasks;
+  const title = req.body.title;
   const list_id = req.params.list_id;
 
   if (!Array.isArray(newTasks)) {
@@ -24,13 +25,15 @@ router.put("/:list_id/submit", async (req, res) => {
   }
 
   try {
-    const resultDel = await db.query("DELETE FROM TASKS WHERE list_id = $1;", [
+    await db.query("UPDATE LISTS SET title = $1 WHERE list_id = $2;", [
+      title,
       list_id,
     ]);
+    await db.query("DELETE FROM TASKS WHERE list_id = $1;", [list_id]);
     for (const task of newTasks) {
-      const resultIns = await db.query(
-        "INSERT INTO TASKS (list_id, task_id, text, position_order) VALUES ($1, $2, $3, $4);",
-        [list_id, task.task_id, task.text, task.position_order]
+      await db.query(
+        "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3);",
+        [list_id, task.text, task.position_order]
       );
     }
     res.json({ message: "Updated" });

@@ -40,8 +40,23 @@ function updateTask(
   );
 }
 
+function addTask(list: ListInterface): ListInterface {
+  const newTask = {
+    list_id: list.list_id,
+    task_id: Date.now(),
+    text: "",
+    position_order:
+      list.tasks.reduce((max, task) => {
+        return task.position_order > max ? task.position_order : max;
+      }, -Infinity) + 1,
+    is_done: false,
+  };
+  return { ...list, tasks: [...list.tasks, newTask] };
+}
+
 export const EditUtils = {
   moveTask,
   deleteTask,
   updateTask,
+  addTask,
 };
