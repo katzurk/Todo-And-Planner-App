@@ -20,7 +20,7 @@ export const List = (props: ListInterface) => {
   return (
     <div className="list">
       <div onClick={handleToggleTask} className="list-header">
-        <div>
+        <div className="list-title">
           <h1>{props.title}</h1>
           <p>{new Date(props.date_created).toLocaleDateString()}</p>
         </div>

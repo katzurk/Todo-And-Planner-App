@@ -27,9 +27,13 @@ export const Navbar = () => {
           <Offcanvas.Title>Sidebar</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Link to="/">Home</Link>
+          <Link to="/">
+            <h3>Home</h3>
+          </Link>
           <br />
-          <Link to="/my-lists">Lists</Link>
+          <Link to="/my-lists">
+            <h3>Lists</h3>
+          </Link>
         </Offcanvas.Body>
       </Offcanvas>
     </div>

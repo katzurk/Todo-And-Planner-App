@@ -1,4 +1,57 @@
+:root {
+  --bg: #120d31;
+  --surface: #302f4d;
+  --hover: #b98ea7;
+  --text: #f0d3f7;
+  --text-accent: #fefadc;
+  --btn: #b98ea7;
+  --btn-hover: #f0d3f7;
+  --border: #3e3b5a;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Khand, sans-serif;
+  color: var(--text-accent);
+}
+
+label {
+  font-size: 20px;
+  font-family: Khand, sans-serif;
+  color: var(--text-accent);
+}
+
+body,
+p,
+div,
+button {
+  font-size: 20px;
+  font-family: Switzer, sans-serif;
+  color: var(--text);
+}
+
+body {
+  background-color: var(--bg);
+}
+
+div {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+input {
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 10px;
+  border: none;
+}
+
 .App {
+  background-color: var(--bg);
   text-align: center;
 }
 
@@ -13,19 +66,8 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.my-lists {
+  background-color: var(--bg);
 }
 
 .task {
@@ -43,13 +85,15 @@
 }
 
 .task-container {
+  background-color: var(--surface);
   display: flex;
   flex-direction: column;
 }
 
 .list {
-  border: solid, black;
-  padding: 30px;
+  background-color: var(--bg);
+  border: solid, var(--border);
+  padding: 10px;
   display: block;
   width: 40%;
   margin: 20px;
@@ -58,16 +102,39 @@
 }
 
 .list-header {
+  background-color: var(--surface);
   display: flex;
   padding: 10px;
 }
 
-.list-header:hover {
-  background-color: rgb(189, 207, 212);
+.list-header:hover,
+.list-header:hover .list-buttons,
+.list-header:hover h1,
+.list-header:hover p,
+.list-header:hover .list-title {
+  background-color: var(--hover);
+  color: var(--bg);
+}
+
+.collapse {
+  background-color: var(--bg);
 }
 
 .list-buttons {
   margin-left: auto;
+}
+
+button,
+input[type="submit"] {
+  background-color: var(--btn);
+  color: var(--bg);
+  padding: 5px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: var(--btn-hover);
+  color: var(--bg);
 }
 
 button.check {
@@ -75,31 +142,45 @@ button.check {
 }
 
 .navbar {
-  border: solid, black;
+  border: 1px solid var(--border);
   height: 80px;
   display: block;
+  background-color: var(--surface);
 }
 
 .offcanvas {
   width: 400px;
+  background-color: var(--surface);
+  color: var(--text);
 }
 
 .offcanvas-header {
-  border: solid, black;
+  background-color: var(--btn);
+  color: var(--bg);
+  border-bottom: 1px solid var(--border);
   height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.offcanvas-header div {
+  background-color: var(--btn);
+  color: var(--bg);
 }
 
 .side-bar .offcanvas-body {
-  border: solid, black;
+  border: 1px solid var(--border);
   border-top: none;
-  background-color: white;
+  padding: 20px;
 }
 
 .form-element {
-  border: solid, black;
+  border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   padding: 10px;
+  background-color: var(--surface);
 }
 
 form {
@@ -117,7 +198,7 @@ label {
 }
 
 .task-edit {
-  border: solid, black;
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   gap: 10px;

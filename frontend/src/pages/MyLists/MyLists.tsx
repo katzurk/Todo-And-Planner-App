@@ -9,7 +9,7 @@ export const MyLists = () => {
   });
 
   return (
-    <div>
+    <div className="my-lists">
       {data?.map((list: ListInterface) => (
         <List key={list.list_id} {...list} />
       ))}

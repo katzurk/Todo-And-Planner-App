@@ -20,13 +20,13 @@ export const TaskInput = (props: TaskInputInterface) => {
       </div>
       <div className="container-buttons">
         <button type="button" onClick={() => props.onMove(props.task_id, "up")}>
-          UP
+          ↑
         </button>
         <button
           type="button"
           onClick={() => props.onMove(props.task_id, "down")}
         >
-          DOWN
+          ↓
         </button>
       </div>
       <div className="container-buttons">
