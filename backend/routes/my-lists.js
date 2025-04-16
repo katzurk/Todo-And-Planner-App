@@ -5,8 +5,17 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const result = await db.query(
-      "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS INNER JOIN TASKS ON LISTS.list_id = TASKS.list_id GROUP BY LISTS.list_id;"
+      "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id GROUP BY LISTS.list_id;"
     );
+    for (const list of result.rows) {
+      if (
+        Array.isArray(list.tasks) &&
+        list.tasks.length === 1 &&
+        list.tasks[0] === null
+      ) {
+        list.tasks = [];
+      }
+    }
     res.json(result.rows);
   } catch (err) {
     console.error(err);

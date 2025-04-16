@@ -44,9 +44,13 @@ export const List = (props: ListProps) => {
       </div>
       <Collapse in={tasks}>
         <div className="task-container">
-          {props.tasks.map((task: TaskInterface) => (
-            <Task key={task.task_id} {...task} />
-          ))}
+          {props.tasks.length !== 0 ? (
+            props.tasks.map((task: TaskInterface) => (
+              <Task key={task.task_id} {...task} />
+            ))
+          ) : (
+            <h4>No tasks</h4>
+          )}
         </div>
       </Collapse>
     </div>

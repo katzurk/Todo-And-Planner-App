@@ -41,14 +41,20 @@ function updateTask(
 }
 
 function addTask(list: ListInterface): ListInterface {
+  let position;
+  if (Array.isArray(list.tasks) && list.tasks.length === 0) {
+    position = 1;
+  } else {
+    position =
+      list.tasks.reduce((max, task) => {
+        return task.position_order > max ? task.position_order : max;
+      }, -Infinity) + 1;
+  }
   const newTask = {
     list_id: list.list_id,
     task_id: Date.now(),
     text: "",
-    position_order:
-      list.tasks.reduce((max, task) => {
-        return task.position_order > max ? task.position_order : max;
-      }, -Infinity) + 1,
+    position_order: position,
     is_done: false,
   };
   return { ...list, tasks: [...list.tasks, newTask] };
