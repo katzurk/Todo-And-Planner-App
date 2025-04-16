@@ -40,9 +40,19 @@ async function submitChangedList(list: ListInterface) {
   }
 }
 
+async function deleteList(list_id: number) {
+  try {
+    return axios.post(`/my-lists/delete`, null, { params: { list_id } });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 export const ListService = {
   getAllLists,
   getListByListId,
   toggleTask,
   submitChangedList,
+  deleteList,
 };

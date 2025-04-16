@@ -10,7 +10,11 @@ export interface ListInterface {
   tasks: TaskInterface[];
 }
 
-export const List = (props: ListInterface) => {
+interface ListProps extends ListInterface {
+  onDelete: (list_id: number) => void;
+}
+
+export const List = (props: ListProps) => {
   const [tasks, toggleTasks] = useState<boolean>(false);
 
   const handleToggleTask = () => {
@@ -28,7 +32,14 @@ export const List = (props: ListInterface) => {
           <Link to={`/edit-list/${props.list_id}`}>
             <button>Edit</button>
           </Link>
-          <button>Delete</button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              props.onDelete(props.list_id);
+            }}
+          >
+            Delete
+          </button>
         </div>
       </div>
       <Collapse in={tasks}>

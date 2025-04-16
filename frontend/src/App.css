@@ -93,6 +93,7 @@ input {
 .list {
   background-color: var(--bg);
   border: solid, var(--border);
+  border-radius: 20px;
   padding: 10px;
   display: block;
   width: 40%;
@@ -103,6 +104,7 @@ input {
 
 .list-header {
   background-color: var(--surface);
+  border-radius: 10px;
   display: flex;
   padding: 10px;
 }
@@ -184,6 +186,9 @@ button.check {
 }
 
 form {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -195,6 +200,7 @@ form {
 
 label {
   margin-right: auto;
+  font-size: 25px;
 }
 
 .task-edit {

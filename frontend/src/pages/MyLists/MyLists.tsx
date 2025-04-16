@@ -8,10 +8,14 @@ export const MyLists = () => {
     queryFn: ListService.getAllLists,
   });
 
+  const handleDeleteList = (list_id: number) => {
+    ListService.deleteList(list_id);
+  };
+
   return (
     <div className="my-lists">
       {data?.map((list: ListInterface) => (
-        <List key={list.list_id} {...list} />
+        <List key={list.list_id} {...list} onDelete={handleDeleteList} />
       ))}
     </div>
   );

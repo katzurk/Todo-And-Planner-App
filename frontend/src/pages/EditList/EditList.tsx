@@ -24,22 +24,22 @@ export const EditList = () => {
     }
   }, [data]);
 
-  const moveTask = (task_id: number, direction: "up" | "down") => {
-    if (list) {
+  const handleMoveTask = (task_id: number, direction: "up" | "down") => {
+    if (list?.tasks) {
       const newTasks = EditUtils.moveTask(task_id, direction, list.tasks);
       setList((prevList: any) => ({ ...prevList, tasks: newTasks }));
     }
   };
 
-  const deleteTask = (task_id: number) => {
-    if (list) {
+  const handleDeleteTask = (task_id: number) => {
+    if (list?.tasks) {
       const newTasks = EditUtils.deleteTask(task_id, list.tasks);
       setList((prevLlist: any) => ({ ...prevLlist, tasks: newTasks }));
     }
   };
 
   const updateTask = (task_id: number, text: string) => {
-    if (list) {
+    if (list?.tasks) {
       const newTasks = EditUtils.updateTask(
         task_id,
         { text: text },
@@ -49,7 +49,7 @@ export const EditList = () => {
     }
   };
 
-  const addTask = () => {
+  const handleAddTask = () => {
     if (list) {
       setList(EditUtils.addTask(list));
     }
@@ -79,15 +79,23 @@ export const EditList = () => {
       {sortedTasks?.map((task: TaskInterface) => (
         <TaskInput
           {...task}
-          onMove={moveTask}
-          onDelete={deleteTask}
+          onMove={handleMoveTask}
+          onDelete={handleDeleteTask}
           onUpdate={updateTask}
         />
       ))}
       <div>
         <input type="submit" value="Save" />
-        <button type="button" onClick={() => addTask()}>
+        <button type="button" onClick={() => handleAddTask()}>
           Add task
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            navigate("/my-lists");
+          }}
+        >
+          Cancel
         </button>
       </div>
     </form>

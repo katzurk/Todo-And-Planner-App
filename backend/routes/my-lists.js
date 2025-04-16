@@ -26,4 +26,15 @@ router.put("/", async (req, res) => {
   }
 });
 
+router.post("/delete", async (req, res) => {
+  const list_id = req.query.list_id;
+  try {
+    await db.query("DELETE FROM LISTS WHERE list_id = $1;", [list_id]);
+    res.json({ message: "Deleted" });
+  } catch (error) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 module.exports = router;

@@ -30,7 +30,7 @@ export const Task = (props: TaskInterface) => {
     },
   });
 
-  const checkTask = (task_id: number) => {
+  const handleCheckTask = (task_id: number) => {
     mutation.mutate(task_id);
   };
 
@@ -39,8 +39,12 @@ export const Task = (props: TaskInterface) => {
       <h1>
         {props.position_order}. {props.text}
       </h1>
-      <button className="check" onClick={() => checkTask(props.task_id)}>
-        OK
+      <button className="check" onClick={() => handleCheckTask(props.task_id)}>
+        {isChecked ? (
+          <i className="bi bi-check-square-fill fs-1"></i>
+        ) : (
+          <i className="bi bi-check-square fs-1"></i>
+        )}
       </button>
     </div>
   );

@@ -12,7 +12,9 @@ export const Navbar = () => {
   return (
     <div>
       <div className="navbar">
-        <button onClick={handleToggleSidebar}>toggle</button>
+        <button onClick={handleToggleSidebar}>
+          <i className="bi bi-grid-3x2-gap fs-1"></i>
+        </button>
       </div>
 
       <Offcanvas
