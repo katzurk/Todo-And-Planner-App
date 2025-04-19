@@ -14,6 +14,12 @@ export const MyLists = () => {
 
   return (
     <div className="my-lists">
+      <div className="list">
+        <button className="add-list-button">
+          <i className="bi bi-plus-circle fs-1"></i>
+          <span className="ms-2">Add list</span>
+        </button>
+      </div>
       {data?.map((list: ListInterface) => (
         <List key={list.list_id} {...list} onDelete={handleDeleteList} />
       ))}

@@ -42,6 +42,10 @@ div {
   color: var(--text);
 }
 
+button {
+  border-radius: 10px;
+}
+
 input {
   background-color: var(--bg);
   color: var(--text);
@@ -65,28 +69,10 @@ input {
   }
 }
 
+/* my-lists */
+
 .my-lists {
   background-color: var(--bg);
-}
-
-.task {
-  background-color: var(--surface);
-  border: solid, black;
-  display: flex;
-  margin: 10px;
-}
-
-.task.checked {
-  background-color: cadetblue;
-}
-
-.task > * {
-  margin: 10px;
-}
-
-.task-container {
-  display: flex;
-  flex-direction: column;
 }
 
 .list {
@@ -125,17 +111,24 @@ input {
   margin-left: auto;
 }
 
-button,
-input[type="submit"] {
-  background-color: var(--btn);
-  color: var(--bg);
-  padding: 5px;
+.task {
+  background-color: var(--surface);
+  border: solid, black;
+  display: flex;
+  margin: 10px;
 }
 
-button:hover,
-input[type="submit"]:hover {
-  background-color: var(--btn-hover);
-  color: var(--bg);
+.task.checked {
+  background-color: cadetblue;
+}
+
+.task > * {
+  margin: 10px;
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
 }
 
 button.check {
@@ -144,6 +137,15 @@ button.check {
   color: var(--text-accent);
   border: none;
 }
+
+button.add-list-button {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 25px;
+}
+
+/* navbar */
 
 .navbar {
   border: 1px solid var(--border);
@@ -178,6 +180,8 @@ button.check {
   border-top: none;
   padding: 20px;
 }
+
+/* edit-list */
 
 .form-element {
   border: 1px solid var(--border);
@@ -226,4 +230,18 @@ label {
 
 .container-buttons button {
   width: 100%;
+}
+
+button,
+input[type="submit"] {
+  background-color: var(--btn);
+  color: var(--bg);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: var(--btn-hover);
+  color: var(--bg);
 }

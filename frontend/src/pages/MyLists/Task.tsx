@@ -43,7 +43,7 @@ export const Task = (props: TaskInterface) => {
         {isChecked ? (
           <i className="bi bi-check-square-fill fs-1"></i>
         ) : (
-          <i className="bi bi-check-square fs-1"></i>
+          <i className="bi bi-square fs-1"></i>
         )}
       </button>
     </div>
