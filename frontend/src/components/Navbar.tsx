@@ -23,7 +23,7 @@ export const Navbar = () => {
         placement="start"
         backdrop={false}
         scroll={true}
-        className="side-bar"
+        className="custom-sidebar"
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Sidebar</Offcanvas.Title>

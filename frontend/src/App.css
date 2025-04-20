@@ -154,13 +154,13 @@ button.add-list-button {
   background-color: var(--surface);
 }
 
-.offcanvas {
+.custom-sidebar {
   width: 400px;
   background-color: var(--surface);
   color: var(--text);
 }
 
-.offcanvas-header {
+.custom-sidebar .offcanvas-header {
   background-color: var(--btn);
   color: var(--bg);
   border-bottom: 1px solid var(--border);
@@ -170,17 +170,11 @@ button.add-list-button {
   padding: 0 20px;
 }
 
-.offcanvas-header div {
-  background-color: var(--btn);
-  color: var(--bg);
-}
-
-.side-bar .offcanvas-body {
+.custom-sidebar .offcanvas-body {
   border: 1px solid var(--border);
   border-top: none;
   padding: 20px;
 }
-
 /* edit-list */
 
 .form-element {
@@ -244,4 +238,31 @@ button:hover,
 input[type="submit"]:hover {
   background-color: var(--btn-hover);
   color: var(--bg);
+}
+
+/* add-modal */
+
+.custom-modal {
+  background-color: var(--surface);
+  color: var(--text);
+  border-radius: 10px;
+}
+
+.custom-modal .modal-header,
+.custom-modal .modal-footer {
+  border: none;
+}
+
+.custom-modal .modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-modal .btn-close {
+  filter: invert(1);
+}
+
+.custom-modal .btn-close:hover {
+  filter: invert(0);
+  background-color: var(--btn-hover);
 }

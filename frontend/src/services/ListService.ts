@@ -1,6 +1,5 @@
 import axios from "axios";
 import { ListInterface } from "../pages/MyLists/List";
-import { TaskInterface } from "../pages/MyLists/Task";
 
 async function getAllLists(): Promise<ListInterface[] | null> {
   try {
@@ -49,10 +48,20 @@ async function deleteList(list_id: number) {
   }
 }
 
+async function addList(title: string) {
+  try {
+    return axios.post(`/my-lists/add`, null, { params: { title } });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 export const ListService = {
   getAllLists,
   getListByListId,
   toggleTask,
   submitChangedList,
   deleteList,
+  addList,
 };

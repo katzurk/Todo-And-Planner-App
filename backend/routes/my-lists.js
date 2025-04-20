@@ -5,7 +5,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const result = await db.query(
-      "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id GROUP BY LISTS.list_id;"
+      "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id GROUP BY LISTS.list_id ORDER BY LISTS.date_created DESC;"
     );
     for (const list of result.rows) {
       if (
@@ -40,6 +40,17 @@ router.post("/delete", async (req, res) => {
   try {
     await db.query("DELETE FROM LISTS WHERE list_id = $1;", [list_id]);
     res.json({ message: "Deleted" });
+  } catch (error) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.post("/add", async (req, res) => {
+  const title = req.query.title;
+  try {
+    await db.query("INSERT INTO LISTS (title) VALUES ($1)", [title]);
+    res.json({ message: "Created a new list" });
   } catch (error) {
     console.error(err);
     res.status(500).send("Internal Server Error");
