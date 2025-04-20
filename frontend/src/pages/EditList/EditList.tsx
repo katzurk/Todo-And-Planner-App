@@ -84,11 +84,17 @@ export const EditList = () => {
           onUpdate={updateTask}
         />
       ))}
+      <div className="task-edit">
+        <button
+          type="button"
+          className="form-element"
+          onClick={() => handleAddTask()}
+        >
+          <i className="bi bi-plus-lg fs-1"></i>
+        </button>
+      </div>
       <div>
         <input type="submit" value="Save" />
-        <button type="button" onClick={() => handleAddTask()}>
-          Add task
-        </button>
         <button
           type="button"
           onClick={() => {

@@ -235,9 +235,16 @@ input[type="submit"] {
 }
 
 button:hover,
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+button.form-element:hover {
   background-color: var(--btn-hover);
   color: var(--bg);
+}
+
+button.form-element {
+  width: 100% !important;
+  background-color: var(--surface);
+  color: var(--text);
 }
 
 /* add-modal */
