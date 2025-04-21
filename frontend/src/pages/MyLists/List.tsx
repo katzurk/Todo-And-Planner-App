@@ -22,7 +22,7 @@ export const List = (props: ListProps) => {
   };
 
   return (
-    <div className="list">
+    <div className={`list ${tasks ? "expanded" : ""}`}>
       <div onClick={handleToggleTask} className="list-header">
         <div className="list-title">
           <h1>{props.title}</h1>
@@ -30,9 +30,10 @@ export const List = (props: ListProps) => {
         </div>
         <div className="list-buttons">
           <Link to={`/edit-list/${props.list_id}`}>
-            <button>Edit</button>
+            <button className="edit-btn">Edit</button>
           </Link>
           <button
+            className="delete-btn"
             onClick={(e) => {
               e.stopPropagation();
               props.onDelete(props.list_id);

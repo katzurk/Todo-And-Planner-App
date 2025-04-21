@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TaskInterface } from "../MyLists/Task";
 
 interface TaskInputInterface extends TaskInterface {
@@ -30,7 +29,11 @@ export const TaskInput = (props: TaskInputInterface) => {
         </button>
       </div>
       <div className="container-buttons">
-        <button type="button" onClick={() => props.onDelete(props.task_id)}>
+        <button
+          className="delete-btn"
+          type="button"
+          onClick={() => props.onDelete(props.task_id)}
+        >
           DELETE
         </button>
       </div>

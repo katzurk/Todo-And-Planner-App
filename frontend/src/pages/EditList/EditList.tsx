@@ -94,7 +94,6 @@ export const EditList = () => {
         </button>
       </div>
       <div>
-        <input type="submit" value="Save" />
         <button
           type="button"
           onClick={() => {
@@ -103,6 +102,7 @@ export const EditList = () => {
         >
           Cancel
         </button>
+        <input className="edit-btn" type="submit" value="Save" />
       </div>
     </form>
   );

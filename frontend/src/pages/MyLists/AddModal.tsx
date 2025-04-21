@@ -46,7 +46,9 @@ export const AddModal = ({ addModal, setAddModal }: AddModalProps) => {
       </Modal.Body>
       <Modal.Footer>
         <button onClick={handleClose}>Close</button>
-        <button onClick={handleSubmitList}>Save Changes</button>
+        <button className="edit-btn" onClick={handleSubmitList}>
+          Save Changes
+        </button>
       </Modal.Footer>
     </Modal>
   );

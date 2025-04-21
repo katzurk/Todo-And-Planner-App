@@ -6,7 +6,10 @@
   --text-accent: #fefadc;
   --btn: #b98ea7;
   --btn-hover: #f0d3f7;
-  --border: #3e3b5a;
+  --border: #4c4869;
+  --border-accent: #8885a4;
+  --del-btn: #c16c88;
+  --edit-btn: #8ca0ac;
 }
 
 h1,
@@ -44,6 +47,15 @@ div {
 
 button {
   border-radius: 10px;
+}
+
+.delete-btn {
+  background-color: var(--del-btn);
+}
+
+.edit-btn,
+input[type="submit"].edit-btn {
+  background-color: var(--edit-btn);
 }
 
 input {
@@ -85,6 +97,11 @@ input {
   margin: 20px;
   margin-left: auto;
   margin-right: auto;
+  transition: border-color 0.3s ease;
+}
+
+.list.expanded {
+  border: solid, var(--border-accent);
 }
 
 .list-header {
@@ -107,6 +124,12 @@ input {
   background-color: var(--bg);
 }
 
+.list-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .list-buttons {
   margin-left: auto;
 }
@@ -119,7 +142,7 @@ input {
 }
 
 .task.checked {
-  background-color: cadetblue;
+  background-color: var(--edit-btn);
 }
 
 .task > * {
@@ -179,6 +202,7 @@ button.add-list-button {
 
 .form-element {
   border: 1px solid var(--border);
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -186,12 +210,12 @@ button.add-list-button {
 }
 
 form {
-  border: 1px solid var(--border);
+  border: solid var(--border);
   border-radius: 20px;
-  padding: 10px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   width: 40%;
   margin: 20px;
   margin-left: auto;
@@ -204,12 +228,11 @@ label {
 }
 
 .task-edit {
-  border: 1px solid var(--border);
+  /* border: 1px solid var(--border); */
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 10px;
 }
 
 .task-edit .form-element {
