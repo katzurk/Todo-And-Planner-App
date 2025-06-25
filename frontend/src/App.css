@@ -93,10 +93,11 @@ input {
   border-radius: 20px;
   padding: 10px;
   display: block;
-  width: 40%;
-  margin: 20px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 80vw;
+  max-width: 800px;
+  min-width: 320px;
+  margin: 20px auto;
+  box-sizing: border-box;
   transition: border-color 0.3s ease;
 }
 
@@ -216,10 +217,11 @@ form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 40%;
-  margin: 20px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 80vw;
+  max-width: 800px;
+  min-width: 320px;
+  margin: 20px auto;
+  box-sizing: border-box;
 }
 
 label {
