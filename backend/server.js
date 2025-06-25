@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./db");
 const app = express();
+const apiRouter = require("express").Router();
 
 app.get("/", async (req, res) => {
   try {
@@ -15,10 +16,12 @@ app.get("/", async (req, res) => {
 app.use(express.json());
 
 const listsRoute = require("./routes/my-lists");
-app.use("/my-lists", listsRoute);
+apiRouter.use("/my-lists", listsRoute);
 
 const editListRoute = require("./routes/edit-list");
-app.use("/edit-list", editListRoute);
+apiRouter.use("/edit-list", editListRoute);
+
+app.use("/api", apiRouter);
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");

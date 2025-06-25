@@ -40,7 +40,7 @@ router.post("/delete", async (req, res) => {
   try {
     await db.query("DELETE FROM LISTS WHERE list_id = $1;", [list_id]);
     res.json({ message: "Deleted" });
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }
@@ -51,7 +51,7 @@ router.post("/add", async (req, res) => {
   try {
     await db.query("INSERT INTO LISTS (title) VALUES ($1)", [title]);
     res.json({ message: "Created a new list" });
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }

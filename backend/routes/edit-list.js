@@ -44,8 +44,8 @@ router.put("/:list_id/submit", async (req, res) => {
       );
     }
     res.json({ message: "Updated" });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
