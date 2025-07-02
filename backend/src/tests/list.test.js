@@ -8,6 +8,10 @@ jest.mock("../db", () => ({
 }));
 
 describe("GET /api/my-lists", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("returns no lists", async () => {
     db.query.mockResolvedValue({
       rows: [],
@@ -74,10 +78,14 @@ describe("GET /api/my-lists", () => {
 });
 
 describe("PUT /api/my-lists?task_id=ID", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("toggles is done for a task", async () => {
     db.query.mockResolvedValue({ rowCount: 1, rows: [] });
 
-    const res = await request(app).put("/api/my-lists?task_id=1");
+    const res = await request(app).put("/api/my-lists").query({ task_id: 1 });
 
     expect(db.query).toHaveBeenCalledWith(
       "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;",
@@ -90,7 +98,7 @@ describe("PUT /api/my-lists?task_id=ID", () => {
   it("returns error 404 if task not found", async () => {
     db.query.mockResolvedValue({ rowCount: 0, rows: [] });
 
-    const res = await request(app).put("/api/my-lists?task_id=111");
+    const res = await request(app).put("/api/my-lists").query({ task_id: 111 });
 
     expect(res.statusCode).toBe(404);
     expect(res.body).toEqual({ message: "Task not found" });
@@ -98,10 +106,16 @@ describe("PUT /api/my-lists?task_id=ID", () => {
 });
 
 describe("POST /api/my-lists/delete?task_id=ID", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("deletes a list by id", async () => {
     db.query.mockResolvedValue({ rowCount: 1, rows: [] });
 
-    const res = await request(app).post("/api/my-lists/delete?list_id=1");
+    const res = await request(app)
+      .post("/api/my-lists/delete")
+      .query({ list_id: 1 });
 
     expect(db.query).toHaveBeenCalledWith(
       "DELETE FROM LISTS WHERE list_id = $1;",
@@ -114,7 +128,9 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
   it("returns error 404 if list not found", async () => {
     db.query.mockResolvedValue({ rowCount: 0, rows: [] });
 
-    const res = await request(app).post("/api/my-lists/delete?list_id=111");
+    const res = await request(app)
+      .post("/api/my-lists/delete")
+      .query({ list_id: 111 });
 
     expect(res.statusCode).toBe(404);
     expect(res.body).toEqual({ message: "List not found" });
@@ -122,10 +138,16 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
 });
 
 describe("POST /api/my-lists/add?title=TITLE", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("adds a new list with given title", async () => {
     db.query.mockResolvedValue({});
 
-    const res = await request(app).post("/api/my-lists/add?title=TestList");
+    const res = await request(app)
+      .post("/api/my-lists/add")
+      .query({ title: "TestList" });
 
     expect(db.query).toHaveBeenCalledWith(
       "INSERT INTO LISTS (title) VALUES ($1)",

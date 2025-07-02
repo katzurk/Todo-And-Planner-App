@@ -18,7 +18,6 @@ router.get("/", async (req, res) => {
     }
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -35,7 +34,6 @@ router.put("/", async (req, res) => {
 
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -53,7 +51,6 @@ router.post("/delete", async (req, res) => {
 
     res.json({ message: "Deleted" });
   } catch (err) {
-    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -64,7 +61,6 @@ router.post("/add", async (req, res) => {
     await db.query("INSERT INTO LISTS (title) VALUES ($1)", [title]);
     res.json({ message: "Created a new list" });
   } catch (err) {
-    console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
