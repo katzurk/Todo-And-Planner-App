@@ -28,6 +28,11 @@ router.put("/", async (req, res) => {
   const query = "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;";
   try {
     const result = await db.query(query, [task_id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -38,7 +43,14 @@ router.put("/", async (req, res) => {
 router.post("/delete", async (req, res) => {
   const list_id = req.query.list_id;
   try {
-    await db.query("DELETE FROM LISTS WHERE list_id = $1;", [list_id]);
+    const result = await db.query("DELETE FROM LISTS WHERE list_id = $1;", [
+      list_id,
+    ]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "List not found" });
+    }
+
     res.json({ message: "Deleted" });
   } catch (err) {
     console.error(err);

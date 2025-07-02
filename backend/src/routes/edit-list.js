@@ -32,11 +32,13 @@ router.put("/:list_id/submit", async (req, res) => {
   }
 
   try {
-    await db.query("UPDATE LISTS SET title = $1 WHERE list_id = $2;", [
-      title,
+    const result = await db.query(
+      "UPDATE LISTS SET title = $1 WHERE list_id = $2;",
+      [title, list_id]
+    );
+    const result1 = await db.query("DELETE FROM TASKS WHERE list_id = $1;", [
       list_id,
     ]);
-    await db.query("DELETE FROM TASKS WHERE list_id = $1;", [list_id]);
     for (const task of newTasks) {
       await db.query(
         "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3);",
