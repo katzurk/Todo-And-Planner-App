@@ -43,7 +43,7 @@ const oneListWithMultipleTasks = [
   },
 ];
 
-module.exports = {
+export default {
   oneListNoTasks,
   multipleListsNoTasks,
   oneListWithOneTask,

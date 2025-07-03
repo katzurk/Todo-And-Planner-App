@@ -1,11 +1,13 @@
-const request = require("supertest");
-const app = require("../app");
-const db = require("../db");
-const mockData = require("./mocks/list.mock");
+import request from "supertest";
+import app from "../app";
+import db from "../db";
+import mockData from "./mocks/list.mock";
 
 jest.mock("../db", () => ({
   query: jest.fn(),
 }));
+
+const mockedQuery = db.query as jest.Mock;
 
 describe("GET /api/edit-list/LIST_ID", () => {
   afterEach(() => {
@@ -13,7 +15,7 @@ describe("GET /api/edit-list/LIST_ID", () => {
   });
 
   it("returns a list with no tasks", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: mockData.oneListNoTasks,
     });
 
@@ -23,7 +25,7 @@ describe("GET /api/edit-list/LIST_ID", () => {
   });
 
   it("returns a list, with tasks", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: mockData.oneListWithMultipleTasks,
     });
 
@@ -33,7 +35,7 @@ describe("GET /api/edit-list/LIST_ID", () => {
   });
 
   it("returns error 500 if the database fails", async () => {
-    db.query.mockRejectedValue(new Error("Database error"));
+    mockedQuery.mockRejectedValue(new Error("Database error"));
 
     const res = await request(app).get("/api/edit-list/1");
 
@@ -42,7 +44,7 @@ describe("GET /api/edit-list/LIST_ID", () => {
   });
 
   it("returns error 404 if list is not found", async () => {
-    db.query.mockResolvedValue({ rowCount: 0, rows: [] });
+    mockedQuery.mockResolvedValue({ rowCount: 0, rows: [] });
 
     const res = await request(app).get("/api/edit-list/1");
 
@@ -57,14 +59,14 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
   });
 
   it("modifies an existing list", async () => {
-    listId = "1";
+    const listId = "1";
     const newTasks = [
       { task_id: 1, text: "task1", position_order: 1 },
       { task_id: 2, text: "task2", position_order: 2 },
     ];
     const title = "NewList";
 
-    db.query
+    mockedQuery
       .mockResolvedValueOnce({ rowCount: 1 })
       .mockResolvedValueOnce({ rowCount: 2 })
       .mockResolvedValueOnce({ rowCount: 1 })
@@ -76,20 +78,20 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual({ message: "Updated" });
-    expect(db.query).toHaveBeenCalledTimes(4);
+    expect(mockedQuery).toHaveBeenCalledTimes(4);
 
-    expect(db.query).toHaveBeenNthCalledWith(
+    expect(mockedQuery).toHaveBeenNthCalledWith(
       1,
       "UPDATE LISTS SET title = $1 WHERE list_id = $2;",
       [title, listId]
     );
-    expect(db.query).toHaveBeenNthCalledWith(
+    expect(mockedQuery).toHaveBeenNthCalledWith(
       2,
       "DELETE FROM TASKS WHERE list_id = $1;",
       [listId]
     );
     newTasks.forEach((task) =>
-      expect(db.query).toHaveBeenNthCalledWith(
+      expect(mockedQuery).toHaveBeenNthCalledWith(
         newTasks.indexOf(task) + 3,
         "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3);",
         [listId, task.text, task.position_order]
@@ -98,7 +100,7 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
   });
 
   it("returns error 404 if list is not found", async () => {
-    db.query.mockResolvedValueOnce({ rowCount: 0 });
+    mockedQuery.mockResolvedValueOnce({ rowCount: 0 });
 
     const res = await request(app)
       .put("/api/edit-list/111/submit")
@@ -109,7 +111,7 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
   });
 
   it("returns error 500 if the database fails", async () => {
-    db.query.mockRejectedValue(new Error("Database error"));
+    mockedQuery.mockRejectedValue(new Error("Database error"));
 
     const res = await request(app)
       .put("/api/edit-list/1/submit")
@@ -120,7 +122,7 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
   });
 
   it("returns error 400 if tasks are not an array", async () => {
-    db.query.mockResolvedValueOnce({ rowCount: 1 });
+    mockedQuery.mockResolvedValueOnce({ rowCount: 1 });
 
     const res = await request(app)
       .put("/api/edit-list/111/submit")

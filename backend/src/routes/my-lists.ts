@@ -1,8 +1,8 @@
-const express = require("express");
-const db = require("../db");
+import express, { Request, Response } from "express";
+import db from "../db";
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response): Promise<any> => {
   try {
     const result = await db.query(
       "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id GROUP BY LISTS.list_id ORDER BY LISTS.date_created DESC;"
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
+router.put("/", async (req: Request, res: Response): Promise<any> => {
   const task_id = req.query.task_id;
   const query = "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;";
   try {
@@ -38,7 +38,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", async (req: Request, res: Response): Promise<any> => {
   const list_id = req.query.list_id;
   try {
     const result = await db.query("DELETE FROM LISTS WHERE list_id = $1;", [
@@ -55,7 +55,7 @@ router.post("/delete", async (req, res) => {
   }
 });
 
-router.post("/add", async (req, res) => {
+router.post("/add", async (req: Request, res: Response): Promise<any> => {
   const title = req.query.title;
   try {
     await db.query("INSERT INTO LISTS (title) VALUES ($1)", [title]);
@@ -65,4 +65,4 @@ router.post("/add", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

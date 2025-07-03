@@ -1,11 +1,13 @@
-const request = require("supertest");
-const app = require("../app");
-const db = require("../db");
-const mockData = require("./mocks/list.mock");
+import request from "supertest";
+import app from "../app";
+import db from "../db";
+import mockData from "./mocks/list.mock";
 
 jest.mock("../db", () => ({
   query: jest.fn(),
 }));
+
+const mockedQuery = db.query as jest.Mock;
 
 describe("GET /api/my-lists", () => {
   afterEach(() => {
@@ -13,7 +15,7 @@ describe("GET /api/my-lists", () => {
   });
 
   it("returns no lists", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: [],
     });
 
@@ -23,7 +25,7 @@ describe("GET /api/my-lists", () => {
   });
 
   it("returns one list with no tasks", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: mockData.oneListNoTasks,
     });
 
@@ -34,7 +36,7 @@ describe("GET /api/my-lists", () => {
   });
 
   it("returns multiple lists, no tasks", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: mockData.multipleListsNoTasks,
     });
 
@@ -46,7 +48,7 @@ describe("GET /api/my-lists", () => {
   });
 
   it("returns one list, one task", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: mockData.oneListWithOneTask,
     });
 
@@ -57,7 +59,7 @@ describe("GET /api/my-lists", () => {
   });
 
   it("returns one list, multiple tasks", async () => {
-    db.query.mockResolvedValue({
+    mockedQuery.mockResolvedValue({
       rows: mockData.oneListWithMultipleTasks,
     });
 
@@ -68,7 +70,7 @@ describe("GET /api/my-lists", () => {
   });
 
   it("returns error 500 if the database fails", async () => {
-    db.query.mockRejectedValue(new Error("Database error"));
+    mockedQuery.mockRejectedValue(new Error("Database error"));
 
     const res = await request(app).get("/api/my-lists");
 
@@ -83,11 +85,11 @@ describe("PUT /api/my-lists?task_id=ID", () => {
   });
 
   it("toggles is done for a task", async () => {
-    db.query.mockResolvedValue({ rowCount: 1, rows: [] });
+    mockedQuery.mockResolvedValue({ rowCount: 1, rows: [] });
 
     const res = await request(app).put("/api/my-lists").query({ task_id: 1 });
 
-    expect(db.query).toHaveBeenCalledWith(
+    expect(mockedQuery).toHaveBeenCalledWith(
       "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;",
       ["1"]
     );
@@ -96,7 +98,7 @@ describe("PUT /api/my-lists?task_id=ID", () => {
   });
 
   it("returns error 404 if task not found", async () => {
-    db.query.mockResolvedValue({ rowCount: 0, rows: [] });
+    mockedQuery.mockResolvedValue({ rowCount: 0, rows: [] });
 
     const res = await request(app).put("/api/my-lists").query({ task_id: 111 });
 
@@ -111,13 +113,13 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
   });
 
   it("deletes a list by id", async () => {
-    db.query.mockResolvedValue({ rowCount: 1, rows: [] });
+    mockedQuery.mockResolvedValue({ rowCount: 1, rows: [] });
 
     const res = await request(app)
       .post("/api/my-lists/delete")
       .query({ list_id: 1 });
 
-    expect(db.query).toHaveBeenCalledWith(
+    expect(mockedQuery).toHaveBeenCalledWith(
       "DELETE FROM LISTS WHERE list_id = $1;",
       ["1"]
     );
@@ -126,7 +128,7 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
   });
 
   it("returns error 404 if list not found", async () => {
-    db.query.mockResolvedValue({ rowCount: 0, rows: [] });
+    mockedQuery.mockResolvedValue({ rowCount: 0, rows: [] });
 
     const res = await request(app)
       .post("/api/my-lists/delete")
@@ -143,13 +145,13 @@ describe("POST /api/my-lists/add?title=TITLE", () => {
   });
 
   it("adds a new list with given title", async () => {
-    db.query.mockResolvedValue({});
+    mockedQuery.mockResolvedValue({});
 
     const res = await request(app)
       .post("/api/my-lists/add")
       .query({ title: "TestList" });
 
-    expect(db.query).toHaveBeenCalledWith(
+    expect(mockedQuery).toHaveBeenCalledWith(
       "INSERT INTO LISTS (title) VALUES ($1)",
       ["TestList"]
     );

@@ -2,12 +2,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
-RUN npm install --force && npm install -g nodemon
+RUN npm install --production
 
-COPY . .
+COPY dist ./dist
 
 EXPOSE 4000
 
-CMD ["nodemon", "src/server.js"]
+CMD ["node", "dist/server.js"]
