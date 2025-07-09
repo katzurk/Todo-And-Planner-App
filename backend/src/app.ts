@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
-import db from "./db";
+import db from "./config/db";
 
 import listsRoute from "./routes/my-lists";
 import editListRoute from "./routes/edit-list";
+import authRoute from "./routes/auth";
 
 const app = express();
 const apiRouter = express.Router();
@@ -20,6 +21,7 @@ app.use(express.json());
 
 apiRouter.use("/my-lists", listsRoute);
 apiRouter.use("/edit-list", editListRoute);
+apiRouter.use("/auth", authRoute);
 
 app.use("/api", apiRouter);
 

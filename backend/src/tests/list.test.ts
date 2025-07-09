@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../app";
-import db from "../db";
+import db from "../config/db";
 import mockData from "./mocks/list.mock";
 
 jest.mock("../db", () => ({
