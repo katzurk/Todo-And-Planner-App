@@ -18,7 +18,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
 
     const hashedPassword = await authUtils.generatePassword(user.password);
     const newUser = await db.query(
-      "INSERT INTO USERS (email, username, password_hash) VALUES ($1, $2, $3);",
+      "INSERT INTO USERS (email, username, password_hash) VALUES ($1, $2, $3) RETURNING user_id;",
       [user.email, user.username, hashedPassword]
     );
 
