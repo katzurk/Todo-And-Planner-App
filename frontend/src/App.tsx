@@ -7,6 +7,8 @@ import { Home } from "./pages/Home";
 import { MyLists } from "./pages/MyLists/MyLists";
 import { Navbar } from "./components/Navbar";
 import { EditList } from "./pages/EditList/EditList";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage/RegisterPage";
 
 function App() {
   const client = new QueryClient();
@@ -19,6 +21,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/my-lists" element={<MyLists />} />
             <Route path="/edit-list/:list_id" element={<EditList />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </Router>
       </QueryClientProvider>
