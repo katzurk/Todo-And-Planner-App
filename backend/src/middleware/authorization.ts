@@ -15,7 +15,7 @@ export const auth = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    const jwtToken = req.header("token");
+    const jwtToken = req.cookies["auth"];
     if (!jwtToken) {
       return res.status(403).json("Not Authorized");
     }

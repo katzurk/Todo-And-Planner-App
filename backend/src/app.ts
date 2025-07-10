@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import db from "./config/db";
 
 import listsRoute from "./routes/my-lists";
@@ -17,6 +19,8 @@ app.get("/", async (req: Request, res: Response) => {
   }
 });
 
+app.use(cors({ credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
 
 apiRouter.use("/my-lists", listsRoute);

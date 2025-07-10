@@ -23,7 +23,8 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
     );
 
     const token = authUtils.createToken(newUser.rows[0].user_id);
-    res.json({ token: token });
+    res.cookie("auth", token, { maxAge: 900000, httpOnly: true });
+    res.status(200).json({ message: "Registered successfully" });
   } catch (err) {
     console.log(err);
     res.status(500).send("Internal Server Error");
@@ -50,7 +51,8 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
     }
 
     const token = authUtils.createToken(findUser.rows[0].user_id);
-    res.json({ token: token });
+    res.cookie("auth", token, { maxAge: 900000, httpOnly: true });
+    res.status(200).json({ message: "Logged in successfully" });
   } catch (err) {
     res.status(500).send("Internal Server Error");
   }
