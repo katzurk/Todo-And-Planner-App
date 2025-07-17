@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import db from "../config/db";
 import bcrypt from "bcryptjs";
 import { authUtils } from "../utils/authUtils";
-import { auth } from "../middleware/authentication";
+import { auth, CustomRequest } from "../middleware/authentication";
 const router = express.Router();
 
 router.post("/register", async (req: Request, res: Response): Promise<any> => {
@@ -63,7 +63,12 @@ router.get(
   auth,
   async (req: Request, res: Response): Promise<any> => {
     try {
-      res.json(true);
+      const user = (req as CustomRequest).user;
+      const result = await db.query(
+        "SELECT email, username FROM USERS WHERE user_id = $1 ",
+        [user]
+      );
+      res.json(result.rows[0]);
     } catch (err) {
       res.status(500).send("Internal Server Error");
     }

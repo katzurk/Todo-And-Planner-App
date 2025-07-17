@@ -14,7 +14,7 @@ export interface RegisterFormData {
 }
 
 export const RegisterForm = () => {
-  const { setAuthenticated } = useContext(AuthContext);
+  const { setAuthenticated, setCurrentUser } = useContext(AuthContext);
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     username: yup.string().required(),
@@ -35,8 +35,10 @@ export const RegisterForm = () => {
   });
 
   const handleRegister = async (data: RegisterFormData) => {
-    await UserService.registerUser;
+    await UserService.registerUser(data);
+    const user = await UserService.getUser();
     setAuthenticated(true);
+    setCurrentUser(user);
     navigate("/my-lists");
   };
 

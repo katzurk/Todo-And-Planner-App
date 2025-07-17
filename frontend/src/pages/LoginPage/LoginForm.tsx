@@ -12,7 +12,7 @@ export interface LoginFormData {
 }
 
 export const LoginForm = () => {
-  const { setAuthenticated } = useContext(AuthContext);
+  const { setAuthenticated, setCurrentUser } = useContext(AuthContext);
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     password: yup.string().required(),
@@ -29,7 +29,9 @@ export const LoginForm = () => {
 
   const handleLogin = async (data: LoginFormData) => {
     await UserService.logInUser(data);
+    const user = await UserService.getUser();
     setAuthenticated(true);
+    setCurrentUser(user);
     navigate("/my-lists");
   };
 
