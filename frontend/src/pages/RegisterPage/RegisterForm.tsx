@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserService } from "../../services/UserService";
+import { useNavigate } from "react-router-dom";
 
 export interface RegisterFormData {
   email: string;
@@ -20,6 +21,7 @@ export const RegisterForm = () => {
       .required()
       .oneOf([yup.ref("password")], "Your passwords do not match."),
   });
+  const navigate = useNavigate();
 
   const {
     register,
@@ -29,8 +31,13 @@ export const RegisterForm = () => {
     resolver: yupResolver(schema),
   });
 
+  const handleRegister = async (data: RegisterFormData) => {
+    await UserService.registerUser;
+    navigate("/my-lists");
+  };
+
   return (
-    <form onSubmit={handleSubmit(UserService.registerUser)}>
+    <form onSubmit={handleSubmit(handleRegister)}>
       <div className="form-element">
         <label>Email:</label>
         <input {...register("email")} />

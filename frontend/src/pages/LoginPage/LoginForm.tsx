@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserService } from "../../services/UserService";
+import { useNavigate } from "react-router-dom";
 
 export interface LoginFormData {
   email: string;
@@ -13,6 +14,7 @@ export const LoginForm = () => {
     email: yup.string().required().email(),
     password: yup.string().required(),
   });
+  const navigate = useNavigate();
 
   const {
     register,
@@ -22,8 +24,13 @@ export const LoginForm = () => {
     resolver: yupResolver(schema),
   });
 
+  const handleLogin = async (data: LoginFormData) => {
+    await UserService.logInUser(data);
+    navigate("/my-lists");
+  };
+
   return (
-    <form onSubmit={handleSubmit(UserService.logInUser)}>
+    <form onSubmit={handleSubmit(handleLogin)}>
       <div className="form-element">
         <label>Email:</label>
         <input {...register("email")} />

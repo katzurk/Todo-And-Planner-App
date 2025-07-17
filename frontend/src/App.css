@@ -174,8 +174,15 @@ button.add-list-button {
 .navbar {
   border: 1px solid var(--border);
   height: 80px;
-  display: block;
+  display: flex;
+  padding: 10px;
   background-color: var(--surface);
+}
+
+.navbar button {
+  padding: 1px;
+  height: auto;
+  width: 70px;
 }
 
 .custom-sidebar {
@@ -297,4 +304,16 @@ button.form-element {
 .custom-modal .btn-close:hover {
   filter: invert(0);
   background-color: var(--btn-hover);
+}
+
+/* userbar */
+.user-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.user-bar button {
+  height: auto;
+  width: auto;
+  padding: 5px;
 }

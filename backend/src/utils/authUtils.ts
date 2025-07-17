@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../middleware/authorization";
+import { SECRET_KEY } from "../middleware/authentication";
 
 async function generatePassword(password: string) {
   const saltRound = 9;

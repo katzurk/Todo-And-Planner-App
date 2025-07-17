@@ -2,18 +2,19 @@ import express, { Request, Response } from "express";
 import db from "../config/db";
 import bcrypt from "bcryptjs";
 import { authUtils } from "../utils/authUtils";
-import { auth } from "../middleware/authorization";
+import { auth } from "../middleware/authentication";
 const router = express.Router();
 
 router.post("/register", async (req: Request, res: Response): Promise<any> => {
   const user = req.body;
   try {
-    const findUser = await db.query(
-      "SELECT * FROM USERS WHERE username = $1;",
-      [user.username]
-    );
+    const findUser = await db.query("SELECT * FROM USERS WHERE email = $1;", [
+      user.email,
+    ]);
     if (findUser.rowCount !== 0) {
-      return res.status(401).json("User with this email already exists");
+      return res
+        .status(401)
+        .json({ message: "User with this email already exists" });
     }
 
     const hashedPassword = await authUtils.generatePassword(user.password);
@@ -34,12 +35,11 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
 router.post("/login", async (req: Request, res: Response): Promise<any> => {
   const user = req.body;
   try {
-    const findUser = await db.query(
-      "SELECT * FROM USERS WHERE username = $1;",
-      [user.username]
-    );
+    const findUser = await db.query("SELECT * FROM USERS WHERE email = $1;", [
+      user.email,
+    ]);
     if (findUser.rowCount === 0) {
-      return res.status(401).json("Email is incorrect");
+      return res.status(401).json({ message: "Email is incorrect" });
     }
 
     const isValidPass = await bcrypt.compare(
@@ -47,7 +47,7 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
       findUser.rows[0].password_hash
     );
     if (!isValidPass) {
-      return res.status(401).json("Password is incorrect");
+      return res.status(401).json({ message: "Password is incorrect" });
     }
 
     const token = authUtils.createToken(findUser.rows[0].user_id);
@@ -69,5 +69,14 @@ router.get(
     }
   }
 );
+
+router.delete("/logout", async (req: Request, res: Response): Promise<any> => {
+  try {
+    res.clearCookie("auth", { httpOnly: true, sameSite: "lax" });
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (err) {
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 export default router;

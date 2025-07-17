@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Offcanvas } from "react-bootstrap";
+import { UserBar } from "./UserBar";
 
 export const Navbar = () => {
   const [sideBar, toggleSideBar] = useState<boolean>(false);
@@ -15,6 +16,7 @@ export const Navbar = () => {
         <button onClick={handleToggleSidebar}>
           <i className="bi bi-grid-3x2-gap fs-1"></i>
         </button>
+        <UserBar />
       </div>
 
       <Offcanvas

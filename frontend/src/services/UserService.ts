@@ -1,12 +1,17 @@
+import axios from "axios";
 import { LoginFormData } from "../pages/LoginPage/LoginForm";
 import { RegisterFormData } from "../pages/RegisterPage/RegisterForm";
 
 async function logInUser(user: LoginFormData) {
-  console.log("Logged in");
+  return axios.post(`/api/auth/login`, user, { withCredentials: true });
 }
 
 async function registerUser(user: RegisterFormData) {
-  console.log("Registered");
+  return axios.post(`/api/auth/register`, user, { withCredentials: true });
+}
+
+async function logOutUser() {
+  return axios.post(`/api/auth/logout`, { withCredentials: true });
 }
 
 export const UserService = {
