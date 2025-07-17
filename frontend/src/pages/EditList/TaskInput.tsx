@@ -1,12 +1,12 @@
-import { TaskInterface } from "../MyLists/Task";
+import { ITask } from "../MyLists/Task";
 
-interface TaskInputInterface extends TaskInterface {
+interface TaskInputProps extends ITask {
   onMove: (task_id: number, direction: "up" | "down") => void;
   onDelete: (task_id: number) => void;
   onUpdate: (task_id: number, text: string) => void;
 }
 
-export const TaskInput = (props: TaskInputInterface) => {
+export const TaskInput = (props: TaskInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onUpdate(props.task_id, e.target.value);
   };

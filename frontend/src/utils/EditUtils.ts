@@ -1,11 +1,11 @@
-import { ListInterface } from "../MyLists/List";
-import { TaskInterface } from "../MyLists/Task";
+import { IList } from "../pages/MyLists/List";
+import { ITask } from "../pages/MyLists/Task";
 
 function moveTask(
   task_id: number,
   direction: "up" | "down",
-  tasks: TaskInterface[]
-): TaskInterface[] {
+  tasks: ITask[]
+): ITask[] {
   const index = tasks.findIndex((task) => task.task_id === task_id);
   if (index === -1) return tasks;
 
@@ -19,7 +19,7 @@ function moveTask(
   return newTasks;
 }
 
-function deleteTask(task_id: number, tasks: TaskInterface[]): TaskInterface[] {
+function deleteTask(task_id: number, tasks: ITask[]): ITask[] {
   const index = tasks.findIndex((task) => task.task_id === task_id);
   const newTasks = [...tasks];
   newTasks.splice(index, 1);
@@ -32,15 +32,15 @@ function deleteTask(task_id: number, tasks: TaskInterface[]): TaskInterface[] {
 
 function updateTask(
   task_id: number,
-  updatedFields: Partial<TaskInterface>,
-  tasks: TaskInterface[]
-): TaskInterface[] {
+  updatedFields: Partial<ITask>,
+  tasks: ITask[]
+): ITask[] {
   return tasks.map((task) =>
     task.task_id === task_id ? { ...task, ...updatedFields } : task
   );
 }
 
-function addTask(list: ListInterface): ListInterface {
+function addTask(list: IList): IList {
   let position;
   if (Array.isArray(list.tasks) && list.tasks.length === 0) {
     position = 1;

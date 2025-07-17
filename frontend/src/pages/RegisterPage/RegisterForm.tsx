@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserService } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 export interface RegisterFormData {
   email: string;
@@ -12,6 +14,7 @@ export interface RegisterFormData {
 }
 
 export const RegisterForm = () => {
+  const { setAuthenticated } = useContext(AuthContext);
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     username: yup.string().required(),
@@ -33,6 +36,7 @@ export const RegisterForm = () => {
 
   const handleRegister = async (data: RegisterFormData) => {
     await UserService.registerUser;
+    setAuthenticated(true);
     navigate("/my-lists");
   };
 

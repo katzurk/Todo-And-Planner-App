@@ -11,10 +11,11 @@ async function registerUser(user: RegisterFormData) {
 }
 
 async function logOutUser() {
-  return axios.post(`/api/auth/logout`, { withCredentials: true });
+  return axios.delete(`/api/auth/logout`, { withCredentials: true });
 }
 
 export const UserService = {
   logInUser,
   registerUser,
+  logOutUser,
 };

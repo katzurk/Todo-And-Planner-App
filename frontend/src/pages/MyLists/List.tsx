@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { Task, TaskInterface } from "./Task";
+import { Task, ITask } from "./Task";
 import { Collapse } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export interface ListInterface {
+export interface IList {
   list_id: number;
   title: string;
   date_created: Date | string;
-  tasks: TaskInterface[];
+  tasks: ITask[];
 }
 
-interface ListProps extends ListInterface {
+interface ListProps extends IList {
   onDelete: (list_id: number) => void;
 }
 
@@ -46,7 +46,7 @@ export const List = (props: ListProps) => {
       <Collapse in={tasks}>
         <div className="task-container">
           {props.tasks.length !== 0 ? (
-            props.tasks.map((task: TaskInterface) => (
+            props.tasks.map((task: ITask) => (
               <Task key={task.task_id} {...task} />
             ))
           ) : (

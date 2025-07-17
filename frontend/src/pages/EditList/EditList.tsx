@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { ListService } from "../../services/ListService";
-import { TaskInterface } from "../MyLists/Task";
+import { ITask } from "../MyLists/Task";
 import { TaskInput } from "./TaskInput";
 import { useEffect, useState } from "react";
-import { ListInterface } from "../MyLists/List";
+import { IList } from "../MyLists/List";
 import { useNavigate, useParams } from "react-router-dom";
-import { EditUtils } from "./EditUtils";
+import { EditUtils } from "../../utils/EditUtils";
 
 export const EditList = () => {
   const navigate = useNavigate();
   const { list_id } = useParams();
-  const [list, setList] = useState<ListInterface | null>(null);
+  const [list, setList] = useState<IList | null>(null);
 
   const { data } = useQuery({
     queryKey: ["list"],
@@ -76,7 +76,7 @@ export const EditList = () => {
         <label>Title</label>
         <input type="text" value={list?.title} onChange={updateTitle} />
       </div>
-      {sortedTasks?.map((task: TaskInterface) => (
+      {sortedTasks?.map((task: ITask) => (
         <TaskInput
           {...task}
           onMove={handleMoveTask}

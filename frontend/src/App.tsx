@@ -9,22 +9,25 @@ import { Navbar } from "./components/Navbar";
 import { EditList } from "./pages/EditList/EditList";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage/RegisterPage";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   const client = new QueryClient();
   return (
     <div className="App">
       <QueryClientProvider client={client}>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/my-lists" element={<MyLists />} />
-            <Route path="/edit-list/:list_id" element={<EditList />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-          </Routes>
-        </Router>
+        <AuthProvider>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/my-lists" element={<MyLists />} />
+              <Route path="/edit-list/:list_id" element={<EditList />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Routes>
+          </Router>
+        </AuthProvider>
       </QueryClientProvider>
     </div>
   );

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ListService } from "../../services/ListService";
 import { useState } from "react";
 
-export interface TaskInterface {
+export interface ITask {
   list_id: number;
   task_id: number;
   text: string;
@@ -11,7 +11,7 @@ export interface TaskInterface {
   is_done: boolean;
 }
 
-export const Task = (props: TaskInterface) => {
+export const Task = (props: ITask) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isChecked, setIsChecked] = useState(props.is_done);

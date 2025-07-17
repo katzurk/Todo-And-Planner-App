@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ListService } from "../../services/ListService";
-import { List, ListInterface } from "./List";
+import { List, IList } from "./List";
 import { AddModal } from "./AddModal";
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ export const MyLists = () => {
         </button>
       </div>
       <AddModal addModal={addModal} setAddModal={setAddModal} />
-      {data?.map((list: ListInterface) => (
+      {data?.map((list: IList) => (
         <List key={list.list_id} {...list} onDelete={handleDeleteList} />
       ))}
     </div>
