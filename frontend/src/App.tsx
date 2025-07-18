@@ -16,8 +16,8 @@ function App() {
   return (
     <div className="App">
       <QueryClientProvider client={client}>
-        <AuthProvider>
-          <Router>
+        <Router>
+          <AuthProvider>
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
@@ -26,8 +26,8 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Routes>
-          </Router>
-        </AuthProvider>
+          </AuthProvider>
+        </Router>
       </QueryClientProvider>
     </div>
   );

@@ -1,8 +1,6 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserService } from "../../services/UserService";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 
@@ -14,7 +12,7 @@ export interface RegisterFormData {
 }
 
 export const RegisterForm = () => {
-  const { setAuthenticated, setCurrentUser } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     username: yup.string().required(),
@@ -24,7 +22,6 @@ export const RegisterForm = () => {
       .required()
       .oneOf([yup.ref("password")], "Your passwords do not match."),
   });
-  const navigate = useNavigate();
 
   const {
     register,
@@ -34,16 +31,8 @@ export const RegisterForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleRegister = async (data: RegisterFormData) => {
-    await UserService.registerUser(data);
-    const user = await UserService.getUser();
-    setAuthenticated(true);
-    setCurrentUser(user);
-    navigate("/my-lists");
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleRegister)}>
+    <form onSubmit={handleSubmit(signUp)}>
       <div className="form-element">
         <label>Email:</label>
         <input {...register("email")} />
