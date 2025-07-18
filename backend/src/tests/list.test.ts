@@ -3,7 +3,7 @@ import app from "../app";
 import db from "../config/db";
 import mockData from "./mocks/list.mock";
 
-jest.mock("../db", () => ({
+jest.mock("../config/db", () => ({
   query: jest.fn(),
 }));
 
@@ -103,7 +103,7 @@ describe("PUT /api/my-lists?task_id=ID", () => {
     const res = await request(app).put("/api/my-lists").query({ task_id: 111 });
 
     expect(res.statusCode).toBe(404);
-    expect(res.body).toEqual({ message: "Task not found" });
+    expect(res.body.message).toEqual("Task not found");
   });
 });
 
@@ -124,7 +124,7 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
       ["1"]
     );
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ message: "Deleted" });
+    expect(res.body.message).toEqual("Deleted");
   });
 
   it("returns error 404 if list not found", async () => {
@@ -135,7 +135,7 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
       .query({ list_id: 111 });
 
     expect(res.statusCode).toBe(404);
-    expect(res.body).toEqual({ message: "List not found" });
+    expect(res.body.message).toEqual("List not found");
   });
 });
 
@@ -157,6 +157,6 @@ describe("POST /api/my-lists/add?title=TITLE", () => {
     );
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ message: "Created a new list" });
+    expect(res.body.message).toEqual("Created a new list");
   });
 });

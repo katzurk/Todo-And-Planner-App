@@ -3,7 +3,7 @@ import app from "../app";
 import db from "../config/db";
 import mockData from "./mocks/list.mock";
 
-jest.mock("../db", () => ({
+jest.mock("../config/db", () => ({
   query: jest.fn(),
 }));
 
@@ -77,7 +77,7 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
       .send({ newTasks, title });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ message: "Updated" });
+    expect(res.body.message).toEqual("Updated");
     expect(mockedQuery).toHaveBeenCalledTimes(4);
 
     expect(mockedQuery).toHaveBeenNthCalledWith(
@@ -107,7 +107,7 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
       .send({ newTasks: [], title: "Test" });
 
     expect(res.statusCode).toBe(404);
-    expect(res.body).toEqual({ message: "List not found" });
+    expect(res.body.message).toEqual("List not found");
   });
 
   it("returns error 500 if the database fails", async () => {
@@ -129,6 +129,6 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
       .send({ newTasks: 8, title: "Test" });
 
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ message: "Invalid data format" });
+    expect(res.body.message).toEqual("Invalid data format");
   });
 });

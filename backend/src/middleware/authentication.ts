@@ -17,13 +17,13 @@ export const auth = async (
   try {
     const jwtToken = req.cookies["auth"];
     if (!jwtToken) {
-      return res.status(403).json("Not Authorized");
+      return res.status(403).json({ message: "Not Authorized" });
     }
 
     const payload = jwt.verify(jwtToken, SECRET_KEY) as JwtPayload;
     (req as CustomRequest).user = payload.user;
     next();
   } catch (err) {
-    res.status(403).json("Not Authorized");
+    res.status(403).json({ message: "Not Authorized" });
   }
 };
