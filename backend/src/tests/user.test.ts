@@ -129,11 +129,11 @@ describe("GET /api/auth/verify", () => {
     });
 
     mockedAuth.mockImplementation((req, res, next) => {
-      res.status(403).json({ message: "Not Authorized" });
+      res.status(401).json({ message: "Not Authorized" });
     });
 
     const res = await request(app).get("/api/auth/verify");
-    expect(res.statusCode).toBe(403);
+    expect(res.statusCode).toBe(401);
     expect(res.body.message).toEqual("Not Authorized");
   });
 });

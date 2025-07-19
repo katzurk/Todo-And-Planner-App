@@ -2,7 +2,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export interface RegisterFormData {
   email: string;
@@ -13,6 +13,8 @@ export interface RegisterFormData {
 
 export const RegisterForm = () => {
   const { signUp } = useContext(AuthContext);
+  const [error, setError] = useState<Error | null>(null);
+
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     username: yup.string().required(),
@@ -23,6 +25,14 @@ export const RegisterForm = () => {
       .oneOf([yup.ref("password")], "Your passwords do not match."),
   });
 
+  const handleRegister = async (data: RegisterFormData) => {
+    try {
+      await signUp(data);
+    } catch (error: any) {
+      setError(error);
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -32,7 +42,7 @@ export const RegisterForm = () => {
   });
 
   return (
-    <form onSubmit={handleSubmit(signUp)}>
+    <form onSubmit={handleSubmit(handleRegister)}>
       <div className="form-element">
         <label>Email:</label>
         <input {...register("email")} />
@@ -53,7 +63,8 @@ export const RegisterForm = () => {
         <input type="password" {...register("confirmPassword")} />
         <p>{errors.confirmPassword?.message}</p>
       </div>
-      <input type="submit" value="Log in" />
+      {!!error && <p>{error.message}</p>}
+      <input type="submit" value="Sign up" />
     </form>
   );
 };

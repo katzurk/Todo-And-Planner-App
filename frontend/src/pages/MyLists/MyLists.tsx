@@ -8,7 +8,7 @@ export const MyLists = () => {
   const queryClient = useQueryClient();
   const [addModal, setAddModal] = useState<boolean>(false);
 
-  const { data } = useQuery({
+  const { data, error, isError, isLoading } = useQuery({
     queryKey: ["lists"],
     queryFn: ListService.getAllLists,
   });
@@ -23,6 +23,18 @@ export const MyLists = () => {
   const handleDeleteList = (list_id: number) => {
     deleteMutation.mutate(list_id);
   };
+
+  if (isLoading) {
+    return (
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <h3>Error: {error.message}</h3>;
+  }
 
   return (
     <div className="my-lists">

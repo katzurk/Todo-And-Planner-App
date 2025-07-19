@@ -12,7 +12,7 @@ export const EditList = () => {
   const { list_id } = useParams();
   const [list, setList] = useState<IList | null>(null);
 
-  const { data } = useQuery({
+  const { data, error, isError, isLoading } = useQuery({
     queryKey: ["list"],
     queryFn: () => ListService.getListByListId(list_id),
     refetchOnWindowFocus: false,
@@ -65,6 +65,18 @@ export const EditList = () => {
       navigate("/my-lists");
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <h3>Error: {error.message}</h3>;
+  }
 
   const sortedTasks = list?.tasks.sort(
     (a, b) => a.position_order - b.position_order

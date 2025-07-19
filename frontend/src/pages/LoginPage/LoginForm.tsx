@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export interface LoginFormData {
@@ -11,6 +11,8 @@ export interface LoginFormData {
 
 export const LoginForm = () => {
   const { logIn } = useContext(AuthContext);
+  const [error, setError] = useState<Error | null>(null);
+
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     password: yup.string().required(),
@@ -24,8 +26,16 @@ export const LoginForm = () => {
     resolver: yupResolver(schema),
   });
 
+  const handleLogIn = async (data: LoginFormData) => {
+    try {
+      await logIn(data);
+    } catch (error: any) {
+      setError(error);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(logIn)}>
+    <form onSubmit={handleSubmit(handleLogIn)}>
       <div className="form-element">
         <label>Email:</label>
         <input {...register("email")} />
@@ -36,6 +46,7 @@ export const LoginForm = () => {
         <input type="password" {...register("password")} />
         <p>{errors.password?.message}</p>
       </div>
+      {!!error && <p>{error.message}</p>}
       <input type="submit" value="Log in" />
     </form>
   );

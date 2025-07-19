@@ -5,9 +5,10 @@ async function getAllLists(): Promise<IList[] | null> {
   try {
     const res = await axios.get("/api/my-lists");
     return res.data as IList[];
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
   }
 }
 
@@ -17,14 +18,21 @@ async function getListByListId(
   try {
     const res = await axios.get(`/api/edit-list/${list_id}`);
     return res.data as IList;
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
   }
 }
 
 async function toggleTask(task_id: number) {
-  return axios.put(`/api/my-lists`, null, { params: { task_id } });
+  try {
+    return axios.put(`/api/my-lists`, null, { params: { task_id } });
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
+  }
 }
 
 async function submitChangedList(list: IList) {
@@ -33,27 +41,30 @@ async function submitChangedList(list: IList) {
       newTasks: list.tasks,
       title: list.title,
     });
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
   }
 }
 
 async function deleteList(list_id: number) {
   try {
     return axios.post(`/api/my-lists/delete`, null, { params: { list_id } });
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
   }
 }
 
 async function addList(title: string) {
   try {
     return axios.post(`/api/my-lists/add`, null, { params: { title } });
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
   }
 }
 

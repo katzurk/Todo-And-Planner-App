@@ -9,7 +9,8 @@ router.get("/:list_id", async (req: Request, res: Response): Promise<any> => {
   try {
     const result = await db.query(query, [list_id]);
 
-    if (result.rowCount === 0) {
+    const list = result.rows[0];
+    if (!list || list.list_id == null) {
       return res.status(404).json({ message: "List not found" });
     }
 
