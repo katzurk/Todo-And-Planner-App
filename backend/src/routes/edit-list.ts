@@ -10,9 +10,9 @@ router.get(
     const list_id = req.params.list_id;
     const user = (req as CustomRequest).user;
     const query =
-      "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS" +
-      "LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id WHERE LISTS.list_id = $1 " +
-      "WHERE user_id = $2 GROUP BY LISTS.list_id;";
+      "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS " +
+      "LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id " +
+      "WHERE LISTS.list_id = $1 AND LISTS.user_id = $2 GROUP BY LISTS.list_id;";
     try {
       const result = await db.query(query, [list_id, user]);
 
