@@ -17,6 +17,7 @@ export interface IUser {
 interface IAuthContext {
   currentUser: IUser | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   logIn: (data: LoginFormData) => void;
   signUp: (data: RegisterFormData) => void;
   logOut: () => void;
@@ -25,6 +26,7 @@ interface IAuthContext {
 const initialValue = {
   currentUser: null,
   isAuthenticated: false,
+  isLoading: true,
   logIn: () => {},
   signUp: () => {},
   logOut: () => {},
@@ -36,7 +38,7 @@ export const AuthProvider = ({ children }: Props) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { data: currentUser } = useQuery({
+  const { data: currentUser, isLoading } = useQuery({
     queryKey: ["currentUser"],
     queryFn: UserService.getUser,
     retry: false,
@@ -67,6 +69,7 @@ export const AuthProvider = ({ children }: Props) => {
       value={{
         currentUser: currentUser ?? null,
         isAuthenticated,
+        isLoading,
         logIn,
         signUp,
         logOut,

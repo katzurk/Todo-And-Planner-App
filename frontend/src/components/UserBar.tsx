@@ -3,8 +3,17 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export const UserBar = () => {
-  const { currentUser, isAuthenticated, logOut } = useContext(AuthContext);
+  const { currentUser, isAuthenticated, isLoading, logOut } =
+    useContext(AuthContext);
   const navigate = useNavigate();
+
+  if (isLoading) {
+    return (
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="user-bar">

@@ -10,6 +10,7 @@ import { EditList } from "./pages/EditList/EditList";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage/RegisterPage";
 import { AuthProvider } from "./context/AuthContext";
+import { ProtectedRoute } from "./utils/ProtectedRoute";
 
 function App() {
   const client = new QueryClient();
@@ -21,8 +22,10 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/my-lists" element={<MyLists />} />
-              <Route path="/edit-list/:list_id" element={<EditList />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/my-lists" element={<MyLists />} />
+                <Route path="/edit-list/:list_id" element={<EditList />} />
+              </Route>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Routes>

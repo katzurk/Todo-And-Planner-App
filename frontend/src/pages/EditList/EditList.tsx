@@ -59,9 +59,10 @@ export const EditList = () => {
     setList((prevList: any) => ({ ...prevList, title: e.target.value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (list) {
-      ListService.submitChangedList(list);
+      await ListService.submitChangedList(list);
       navigate("/my-lists");
     }
   };

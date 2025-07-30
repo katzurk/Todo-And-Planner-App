@@ -1,5 +1,10 @@
 import { RegisterForm } from "./RegisterForm";
 
 export const RegisterPage = () => {
-  return <RegisterForm />;
+  return (
+    <div>
+      <h1>Register</h1>
+      <RegisterForm />
+    </div>
+  );
 };
