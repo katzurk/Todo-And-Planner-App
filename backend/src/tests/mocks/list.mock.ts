@@ -1,6 +1,7 @@
 const oneListNoTasks = [
   {
     list_id: 1,
+    user_id: 1,
     title: "test",
     date_created: new Date(2025, 6, 1),
     tasks: [null],
@@ -10,12 +11,14 @@ const oneListNoTasks = [
 const multipleListsNoTasks = [
   {
     list_id: 1,
+    user_id: 1,
     title: "test",
     date_created: new Date(2025, 6, 1),
     tasks: [null],
   },
   {
     list_id: 2,
+    user_id: 1,
     title: "test2",
     date_created: new Date(2025, 7, 1),
     tasks: [null],
@@ -25,6 +28,7 @@ const multipleListsNoTasks = [
 const oneListWithOneTask = [
   {
     list_id: 1,
+    user_id: 1,
     title: "test",
     date_created: new Date(2025, 6, 1),
     tasks: [{ task_id: 1, text: "task", position_order: 1, is_done: false }],
@@ -34,6 +38,7 @@ const oneListWithOneTask = [
 const oneListWithMultipleTasks = [
   {
     list_id: 1,
+    user_id: 1,
     title: "test",
     date_created: new Date(2025, 6, 1),
     tasks: [

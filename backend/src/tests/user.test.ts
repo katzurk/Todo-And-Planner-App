@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs";
 jest.mock("../config/db", () => ({
   query: jest.fn(),
 }));
-
 jest.mock("../utils/authUtils", () => ({
   authUtils: {
     generatePassword: jest.fn(),
@@ -60,7 +59,6 @@ describe("POST /api/auth/login", () => {
 
   it("logs in a user correctly", async () => {
     jest.spyOn(bcrypt as any, "compare").mockResolvedValue(true);
-
     mockedQuery.mockResolvedValue({
       rows: mockData.foundUser,
     });
@@ -89,7 +87,6 @@ describe("POST /api/auth/login", () => {
 
   it("return error 401 if password is incorrect", async () => {
     jest.spyOn(bcrypt as any, "compare").mockResolvedValue(false);
-
     mockedQuery.mockResolvedValue({
       rows: mockData.foundUser,
     });
@@ -112,7 +109,6 @@ describe("GET /api/auth/verify", () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.currentUser,
     });
-
     mockedAuth.mockImplementation((req, res, next) => {
       req.user = 1;
       next();
@@ -127,7 +123,6 @@ describe("GET /api/auth/verify", () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.currentUser,
     });
-
     mockedAuth.mockImplementation((req, res, next) => {
       res.status(401).json({ message: "Not Authorized" });
     });

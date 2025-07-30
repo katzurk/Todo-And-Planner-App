@@ -37,7 +37,6 @@ router.put("/", auth, async (req: Request, res: Response): Promise<any> => {
         "WHERE user_id = $1 AND task_id = $2",
       [user, task_id]
     );
-
     if (isAuth.rowCount === 0) {
       return res.status(401).json({ message: "Not authorized" });
     }
@@ -46,7 +45,6 @@ router.put("/", auth, async (req: Request, res: Response): Promise<any> => {
       "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;",
       [task_id]
     );
-
     if (result.rowCount === 0) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -68,7 +66,6 @@ router.post(
         "SELECT list_id FROM LISTS WHERE user_id = $1 AND list_id = $2",
         [user, list_id]
       );
-
       if (isAuth.rowCount === 0) {
         return res.status(401).json({ message: "Not authorized" });
       }
@@ -76,7 +73,6 @@ router.post(
       const result = await db.query("DELETE FROM LISTS WHERE list_id = $1;", [
         list_id,
       ]);
-
       if (result.rowCount === 0) {
         return res.status(404).json({ message: "List not found" });
       }

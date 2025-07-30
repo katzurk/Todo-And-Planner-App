@@ -2,12 +2,17 @@ import request from "supertest";
 import app from "../app";
 import db from "../config/db";
 import mockData from "./mocks/list.mock";
+import { auth } from "../middleware/authentication";
 
 jest.mock("../config/db", () => ({
   query: jest.fn(),
 }));
+jest.mock("../middleware/authentication", () => ({
+  auth: jest.fn(),
+}));
 
 const mockedQuery = db.query as jest.Mock;
+const mockedAuth = auth as jest.Mock;
 
 describe("GET /api/my-lists", () => {
   afterEach(() => {
@@ -17,6 +22,10 @@ describe("GET /api/my-lists", () => {
   it("returns no lists", async () => {
     mockedQuery.mockResolvedValue({
       rows: [],
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
     });
 
     const res = await request(app).get("/api/my-lists");
@@ -28,6 +37,10 @@ describe("GET /api/my-lists", () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.oneListNoTasks,
     });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/my-lists");
     expect(res.statusCode).toBe(200);
@@ -38,6 +51,10 @@ describe("GET /api/my-lists", () => {
   it("returns multiple lists, no tasks", async () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.multipleListsNoTasks,
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
     });
 
     const res = await request(app).get("/api/my-lists");
@@ -51,6 +68,10 @@ describe("GET /api/my-lists", () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.oneListWithOneTask,
     });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/my-lists");
     expect(res.statusCode).toBe(200);
@@ -62,6 +83,10 @@ describe("GET /api/my-lists", () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.oneListWithMultipleTasks,
     });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/my-lists");
     expect(res.statusCode).toBe(200);
@@ -71,6 +96,10 @@ describe("GET /api/my-lists", () => {
 
   it("returns error 500 if the database fails", async () => {
     mockedQuery.mockRejectedValue(new Error("Database error"));
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/my-lists");
 
@@ -85,7 +114,13 @@ describe("PUT /api/my-lists?task_id=ID", () => {
   });
 
   it("toggles is done for a task", async () => {
-    mockedQuery.mockResolvedValue({ rowCount: 1, rows: [] });
+    mockedQuery
+      .mockResolvedValueOnce({ rowCount: 1, rows: [] })
+      .mockResolvedValueOnce({ rowCount: 1, rows: [] });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).put("/api/my-lists").query({ task_id: 1 });
 
@@ -98,7 +133,13 @@ describe("PUT /api/my-lists?task_id=ID", () => {
   });
 
   it("returns error 404 if task not found", async () => {
-    mockedQuery.mockResolvedValue({ rowCount: 0, rows: [] });
+    mockedQuery
+      .mockResolvedValueOnce({ rowCount: 1, rows: [] })
+      .mockResolvedValueOnce({ rowCount: 0, rows: [] });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).put("/api/my-lists").query({ task_id: 111 });
 
@@ -114,6 +155,10 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
 
   it("deletes a list by id", async () => {
     mockedQuery.mockResolvedValue({ rowCount: 1, rows: [] });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .post("/api/my-lists/delete")
@@ -128,7 +173,13 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
   });
 
   it("returns error 404 if list not found", async () => {
-    mockedQuery.mockResolvedValue({ rowCount: 0, rows: [] });
+    mockedQuery
+      .mockResolvedValueOnce({ rowCount: 1 })
+      .mockResolvedValueOnce({ rowCount: 0 });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .post("/api/my-lists/delete")
@@ -146,14 +197,18 @@ describe("POST /api/my-lists/add?title=TITLE", () => {
 
   it("adds a new list with given title", async () => {
     mockedQuery.mockResolvedValue({});
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .post("/api/my-lists/add")
       .query({ title: "TestList" });
 
     expect(mockedQuery).toHaveBeenCalledWith(
-      "INSERT INTO LISTS (title) VALUES ($1)",
-      ["TestList"]
+      "INSERT INTO LISTS (user_id, title) VALUES ($1, $2)",
+      [1, "TestList"]
     );
 
     expect(res.statusCode).toBe(200);

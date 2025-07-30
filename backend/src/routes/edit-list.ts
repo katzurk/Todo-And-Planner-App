@@ -53,7 +53,6 @@ router.put(
         "SELECT list_id FROM LISTS WHERE user_id = $1 AND list_id = $2",
         [user, list_id]
       );
-
       if (isAuth.rowCount === 0) {
         return res.status(401).json({ message: "Not authorized" });
       }
@@ -62,7 +61,6 @@ router.put(
         "UPDATE LISTS SET title = $1 WHERE list_id = $2;",
         [title, list_id]
       );
-
       if (resultUpd.rowCount === 0) {
         return res.status(404).json({ message: "List not found" });
       }

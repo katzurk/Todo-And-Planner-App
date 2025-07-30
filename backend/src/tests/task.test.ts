@@ -2,12 +2,17 @@ import request from "supertest";
 import app from "../app";
 import db from "../config/db";
 import mockData from "./mocks/list.mock";
+import { auth } from "../middleware/authentication";
 
 jest.mock("../config/db", () => ({
   query: jest.fn(),
 }));
+jest.mock("../middleware/authentication", () => ({
+  auth: jest.fn(),
+}));
 
 const mockedQuery = db.query as jest.Mock;
+const mockedAuth = auth as jest.Mock;
 
 describe("GET /api/edit-list/LIST_ID", () => {
   afterEach(() => {
@@ -17,6 +22,10 @@ describe("GET /api/edit-list/LIST_ID", () => {
   it("returns a list with no tasks", async () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.oneListNoTasks,
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
     });
 
     const res = await request(app).get("/api/edit-list/1");
@@ -28,6 +37,10 @@ describe("GET /api/edit-list/LIST_ID", () => {
     mockedQuery.mockResolvedValue({
       rows: mockData.oneListWithMultipleTasks,
     });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/edit-list/1");
     expect(res.statusCode).toBe(200);
@@ -36,6 +49,10 @@ describe("GET /api/edit-list/LIST_ID", () => {
 
   it("returns error 500 if the database fails", async () => {
     mockedQuery.mockRejectedValue(new Error("Database error"));
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/edit-list/1");
 
@@ -45,6 +62,10 @@ describe("GET /api/edit-list/LIST_ID", () => {
 
   it("returns error 404 if list is not found", async () => {
     mockedQuery.mockResolvedValue({ rowCount: 0, rows: [] });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app).get("/api/edit-list/1");
 
@@ -68,9 +89,14 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
 
     mockedQuery
       .mockResolvedValueOnce({ rowCount: 1 })
+      .mockResolvedValueOnce({ rowCount: 1 })
       .mockResolvedValueOnce({ rowCount: 2 })
       .mockResolvedValueOnce({ rowCount: 1 })
       .mockResolvedValueOnce({ rowCount: 1 });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .put("/api/edit-list/1/submit")
@@ -78,21 +104,20 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toEqual("Updated");
-    expect(mockedQuery).toHaveBeenCalledTimes(4);
 
     expect(mockedQuery).toHaveBeenNthCalledWith(
-      1,
+      2,
       "UPDATE LISTS SET title = $1 WHERE list_id = $2;",
       [title, listId]
     );
     expect(mockedQuery).toHaveBeenNthCalledWith(
-      2,
+      3,
       "DELETE FROM TASKS WHERE list_id = $1;",
       [listId]
     );
     newTasks.forEach((task) =>
       expect(mockedQuery).toHaveBeenNthCalledWith(
-        newTasks.indexOf(task) + 3,
+        newTasks.indexOf(task) + 4,
         "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3);",
         [listId, task.text, task.position_order]
       )
@@ -100,7 +125,13 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
   });
 
   it("returns error 404 if list is not found", async () => {
-    mockedQuery.mockResolvedValueOnce({ rowCount: 0 });
+    mockedQuery
+      .mockResolvedValueOnce({ rowCount: 1 })
+      .mockResolvedValueOnce({ rowCount: 0 });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .put("/api/edit-list/111/submit")
@@ -112,6 +143,10 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
 
   it("returns error 500 if the database fails", async () => {
     mockedQuery.mockRejectedValue(new Error("Database error"));
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .put("/api/edit-list/1/submit")
@@ -123,6 +158,10 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
 
   it("returns error 400 if tasks are not an array", async () => {
     mockedQuery.mockResolvedValueOnce({ rowCount: 1 });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
 
     const res = await request(app)
       .put("/api/edit-list/111/submit")
