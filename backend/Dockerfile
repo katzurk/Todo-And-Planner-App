@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --production
+RUN npm install
 
 COPY dist ./dist
 
 EXPOSE 4000
 
-CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]

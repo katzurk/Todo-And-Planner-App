@@ -48,7 +48,9 @@ describe("POST /api/auth/register", () => {
       .send(mockData.registerData);
 
     expect(res.status).toBe(401);
-    expect(res.body.message).toBe("User with this email already exists");
+    expect(res.body.message).toBe(
+      "User with this email or username already exists"
+    );
   });
 });
 

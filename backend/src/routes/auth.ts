@@ -8,13 +8,14 @@ const router = express.Router();
 router.post("/register", async (req: Request, res: Response): Promise<any> => {
   const user = req.body;
   try {
-    const findUser = await db.query("SELECT * FROM USERS WHERE email = $1;", [
-      user.email,
-    ]);
+    const findUser = await db.query(
+      "SELECT * FROM USERS WHERE email = $1 OR username = $2;",
+      [user.email, user.username]
+    );
     if (findUser.rowCount !== 0) {
       return res
         .status(401)
-        .json({ message: "User with this email already exists" });
+        .json({ message: "User with this email or username already exists" });
     }
 
     const hashedPassword = await authUtils.generatePassword(user.password);
