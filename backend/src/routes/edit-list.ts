@@ -12,7 +12,7 @@ router.get(
     const query =
       "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks FROM LISTS " +
       "LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id " +
-      "WHERE LISTS.list_id = $1 AND LISTS.user_id = $2 GROUP BY LISTS.list_id;";
+      "WHERE LISTS.list_id = $1 AND LISTS.user_id = $2 GROUP BY LISTS.list_id";
     try {
       const result = await db.query(query, [list_id, user]);
 
@@ -58,21 +58,20 @@ router.put(
       }
 
       const resultUpd = await db.query(
-        "UPDATE LISTS SET title = $1 WHERE list_id = $2;",
+        "UPDATE LISTS SET title = $1 WHERE list_id = $2",
         [title, list_id]
       );
       if (resultUpd.rowCount === 0) {
         return res.status(404).json({ message: "List not found" });
       }
 
-      const resultDel = await db.query(
-        "DELETE FROM TASKS WHERE list_id = $1;",
-        [list_id]
-      );
+      const resultDel = await db.query("DELETE FROM TASKS WHERE list_id = $1", [
+        list_id,
+      ]);
 
       for (const task of newTasks) {
         await db.query(
-          "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3);",
+          "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3)",
           [list_id, task.text, task.position_order]
         );
       }

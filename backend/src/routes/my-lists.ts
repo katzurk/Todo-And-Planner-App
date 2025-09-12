@@ -9,7 +9,7 @@ router.get("/", auth, async (req: Request, res: Response): Promise<any> => {
     const result = await db.query(
       "SELECT LISTS.*, JSON_AGG(TASKS.* ORDER BY TASKS.position_order ASC) as tasks " +
         "FROM LISTS LEFT JOIN TASKS ON LISTS.list_id = TASKS.list_id WHERE user_id = $1 " +
-        "GROUP BY LISTS.list_id ORDER BY LISTS.date_created DESC;",
+        "GROUP BY LISTS.list_id ORDER BY LISTS.date_created DESC",
       [user]
     );
     for (const list of result.rows) {
@@ -42,7 +42,7 @@ router.put("/", auth, async (req: Request, res: Response): Promise<any> => {
     }
 
     const result = await db.query(
-      "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;",
+      "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1",
       [task_id]
     );
     if (result.rowCount === 0) {
@@ -70,7 +70,7 @@ router.post(
         return res.status(401).json({ message: "Not authorized" });
       }
 
-      const result = await db.query("DELETE FROM LISTS WHERE list_id = $1;", [
+      const result = await db.query("DELETE FROM LISTS WHERE list_id = $1", [
         list_id,
       ]);
       if (result.rowCount === 0) {

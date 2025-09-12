@@ -9,7 +9,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
   const user = req.body;
   try {
     const findUser = await db.query(
-      "SELECT * FROM USERS WHERE email = $1 OR username = $2;",
+      "SELECT * FROM USERS WHERE email = $1 OR username = $2",
       [user.email, user.username]
     );
     if (findUser.rowCount !== 0) {
@@ -20,7 +20,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
 
     const hashedPassword = await authUtils.generatePassword(user.password);
     const newUser = await db.query(
-      "INSERT INTO USERS (email, username, password_hash) VALUES ($1, $2, $3) RETURNING user_id;",
+      "INSERT INTO USERS (email, username, password_hash) VALUES ($1, $2, $3) RETURNING user_id",
       [user.email, user.username, hashedPassword]
     );
 
@@ -36,7 +36,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
 router.post("/login", async (req: Request, res: Response): Promise<any> => {
   const user = req.body;
   try {
-    const findUser = await db.query("SELECT * FROM USERS WHERE email = $1;", [
+    const findUser = await db.query("SELECT * FROM USERS WHERE email = $1", [
       user.email,
     ]);
     if (findUser.rowCount === 0) {
@@ -63,10 +63,10 @@ router.get(
   "/verify",
   auth,
   async (req: Request, res: Response): Promise<any> => {
+    const user = (req as CustomRequest).user;
     try {
-      const user = (req as CustomRequest).user;
       const result = await db.query(
-        "SELECT email, username FROM USERS WHERE user_id = $1 ",
+        "SELECT email, username FROM USERS WHERE user_id = $1",
         [user]
       );
       res.json(result.rows[0]);
@@ -84,5 +84,68 @@ router.delete("/logout", async (req: Request, res: Response): Promise<any> => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+router.put(
+  "/edit-username",
+  auth,
+  async (req: Request, res: Response): Promise<any> => {
+    const user = (req as CustomRequest).user;
+    const newUsername = req.body.username;
+    try {
+      const findUser = await db.query(
+        "SELECT user_id FROM USERS WHERE username = $1",
+        [newUsername]
+      );
+      if (findUser.rowCount !== 0) {
+        return res
+          .status(401)
+          .json({ message: "User with this email or username already exists" });
+      }
+      const editUsername = await db.query(
+        "UPDATE USERS SET username = $1 WHERE user_id = $2",
+        [newUsername, user]
+      );
+      res.status(200).json({ message: "The username has been changed" });
+    } catch (err) {
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
+router.put(
+  "/edit-password",
+  auth,
+  async (req: Request, res: Response): Promise<any> => {
+    const user = (req as CustomRequest).user;
+    const currentPassword = req.body.currentPassword;
+    const newPassword = req.body.newPassword;
+    try {
+      const passHash = await db.query(
+        "SELECT password_hash FROM USERS WHERE user_id = $1",
+        [user]
+      );
+      const isValidPass = await bcrypt.compare(
+        currentPassword,
+        passHash.rows[0].password_hash
+      );
+
+      if (!isValidPass) {
+        return res
+          .status(401)
+          .json({ message: "Current password is incorrect" });
+      }
+
+      const hashedPassword = await authUtils.generatePassword(newPassword);
+      const editPassword = await db.query(
+        "UPDATE USERS SET password_hash = $1 WHERE user_id = $2",
+        [hashedPassword, user]
+      );
+
+      res.status(200).json({ message: "The password has been changed" });
+    } catch (err) {
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
 
 export default router;
