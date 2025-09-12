@@ -107,18 +107,18 @@ describe("PUT /api/edit-list/LIST_ID/submit", () => {
 
     expect(mockedQuery).toHaveBeenNthCalledWith(
       2,
-      "UPDATE LISTS SET title = $1 WHERE list_id = $2;",
+      "UPDATE LISTS SET title = $1 WHERE list_id = $2",
       [title, listId]
     );
     expect(mockedQuery).toHaveBeenNthCalledWith(
       3,
-      "DELETE FROM TASKS WHERE list_id = $1;",
+      "DELETE FROM TASKS WHERE list_id = $1",
       [listId]
     );
     newTasks.forEach((task) =>
       expect(mockedQuery).toHaveBeenNthCalledWith(
         newTasks.indexOf(task) + 4,
-        "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3);",
+        "INSERT INTO TASKS (list_id, text, position_order) VALUES ($1, $2, $3)",
         [listId, task.text, task.position_order]
       )
     );

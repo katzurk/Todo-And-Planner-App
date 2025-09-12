@@ -317,3 +317,8 @@ button.form-element {
   width: auto;
   padding: 5px;
 }
+
+.usericon {
+  font-size: 80px;
+  color: var(--text-accent);
+}

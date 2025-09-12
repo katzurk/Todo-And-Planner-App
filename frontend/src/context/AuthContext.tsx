@@ -12,6 +12,7 @@ interface Props {
 export interface IUser {
   email: string;
   username: string;
+  date_registered: Date;
 }
 
 interface IAuthContext {

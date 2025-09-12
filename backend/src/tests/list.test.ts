@@ -125,7 +125,7 @@ describe("PUT /api/my-lists?task_id=ID", () => {
     const res = await request(app).put("/api/my-lists").query({ task_id: 1 });
 
     expect(mockedQuery).toHaveBeenCalledWith(
-      "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1;",
+      "UPDATE TASKS SET is_done = NOT is_done WHERE task_id = $1",
       ["1"]
     );
     expect(res.statusCode).toBe(200);
@@ -165,7 +165,7 @@ describe("POST /api/my-lists/delete?task_id=ID", () => {
       .query({ list_id: 1 });
 
     expect(mockedQuery).toHaveBeenCalledWith(
-      "DELETE FROM LISTS WHERE list_id = $1;",
+      "DELETE FROM LISTS WHERE list_id = $1",
       ["1"]
     );
     expect(res.statusCode).toBe(200);

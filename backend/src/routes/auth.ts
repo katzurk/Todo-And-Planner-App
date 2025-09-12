@@ -66,7 +66,7 @@ router.get(
     const user = (req as CustomRequest).user;
     try {
       const result = await db.query(
-        "SELECT email, username FROM USERS WHERE user_id = $1",
+        "SELECT email, username, date_registered FROM USERS WHERE user_id = $1",
         [user]
       );
       res.json(result.rows[0]);
