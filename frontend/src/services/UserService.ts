@@ -46,9 +46,43 @@ async function getUser(): Promise<IUser | null> {
   }
 }
 
+async function editUsername(newUsername: string) {
+  try {
+    return await axios.put(
+      "/api/auth/edit-username",
+      { newUsername },
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
+  }
+}
+
+async function editPassword(currentPassword: string, newPassword: string) {
+  try {
+    return await axios.put(
+      "/api/auth/edit-password",
+      { currentPassword, newPassword },
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
+  }
+}
+
 export const UserService = {
   logInUser,
   registerUser,
   logOutUser,
   getUser,
+  editUsername,
+  editPassword,
 };

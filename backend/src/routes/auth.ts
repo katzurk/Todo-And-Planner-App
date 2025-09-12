@@ -90,7 +90,7 @@ router.put(
   auth,
   async (req: Request, res: Response): Promise<any> => {
     const user = (req as CustomRequest).user;
-    const newUsername = req.body.username;
+    const newUsername = req.body.newUsername;
     try {
       const findUser = await db.query(
         "SELECT user_id FROM USERS WHERE username = $1",

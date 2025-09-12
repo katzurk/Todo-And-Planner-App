@@ -1,8 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { EditUsernameModal } from "./EditUsernameModal";
 
 export const MyProfile = () => {
   const { currentUser, isLoading } = useContext(AuthContext);
+  const [usernameModal, setUsernameModal] = useState<boolean>(false);
 
   if (isLoading) {
     return (
@@ -16,11 +18,23 @@ export const MyProfile = () => {
     <div>
       <i className="bi bi-person-circle usericon"></i>
       <h1>Profile</h1>
-      <h4>username: {currentUser?.username}</h4>
-      <h4>email: {currentUser?.email}</h4>
-      <h4>registration date: {typeof currentUser?.date_registered}</h4>
-      <button>Change username</button>
+      {currentUser && (
+        <div>
+          <h4>username: {currentUser.username}</h4>
+          <h4>email: {currentUser.email}</h4>
+          <h4>
+            registration date:{" "}
+            {new Date(currentUser.date_registered).toLocaleDateString()}
+          </h4>
+        </div>
+      )}
+      <button onClick={() => setUsernameModal(true)}>Change username</button>
       <button>Reset password</button>
+
+      <EditUsernameModal
+        usernameModal={usernameModal}
+        setUsernameModal={setUsernameModal}
+      />
     </div>
   );
 };

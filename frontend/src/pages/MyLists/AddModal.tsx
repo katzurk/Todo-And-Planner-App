@@ -21,12 +21,12 @@ export const AddModal = ({ addModal, setAddModal }: AddModalProps) => {
     mutationFn: (title: string) => ListService.addList(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
+      setAddModal(false);
     },
   });
 
   const handleSubmitList = () => {
     addMutation.mutate(title);
-    setAddModal(false);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
