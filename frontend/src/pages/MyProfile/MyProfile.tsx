@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { EditUsernameModal } from "./EditUsernameModal";
+import { ResetPasswordModal } from "./ResetPasswordModal";
 
 export const MyProfile = () => {
   const { currentUser, isLoading } = useContext(AuthContext);
   const [usernameModal, setUsernameModal] = useState<boolean>(false);
+  const [passwordModal, setPasswordModal] = useState<boolean>(false);
 
   if (isLoading) {
     return (
@@ -29,11 +31,15 @@ export const MyProfile = () => {
         </div>
       )}
       <button onClick={() => setUsernameModal(true)}>Change username</button>
-      <button>Reset password</button>
+      <button onClick={() => setPasswordModal(true)}>Reset password</button>
 
       <EditUsernameModal
         usernameModal={usernameModal}
         setUsernameModal={setUsernameModal}
+      />
+      <ResetPasswordModal
+        passwordModal={passwordModal}
+        setPasswordModal={setPasswordModal}
       />
     </div>
   );
