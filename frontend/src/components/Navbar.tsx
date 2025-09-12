@@ -38,6 +38,10 @@ export const Navbar = () => {
           <Link to="/my-lists">
             <h3>Lists</h3>
           </Link>
+          <br />
+          <Link to="/my-profile">
+            <h3>My Profile</h3>
+          </Link>
         </Offcanvas.Body>
       </Offcanvas>
     </div>
