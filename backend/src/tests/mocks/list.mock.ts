@@ -48,9 +48,41 @@ const oneListWithMultipleTasks = [
   },
 ];
 
+const newTasks = [
+  {
+    text: "test",
+  },
+  {
+    text: "test",
+  },
+  {
+    text: "test",
+  },
+  {
+    text: "test",
+  },
+  {
+    text: "test",
+  },
+];
+
+const newLists = [
+  {
+    title: "test",
+  },
+  {
+    title: "test",
+  },
+  {
+    title: "test",
+  },
+];
+
 export default {
   oneListNoTasks,
   multipleListsNoTasks,
   oneListWithOneTask,
   oneListWithMultipleTasks,
+  newTasks,
+  newLists,
 };
