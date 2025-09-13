@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IList } from "../pages/MyLists/List";
+import { ITask } from "../pages/MyLists/Task";
 
 async function getAllLists(): Promise<IList[] | null> {
   try {
@@ -68,6 +69,28 @@ async function addList(title: string) {
   }
 }
 
+async function getNewTasks(): Promise<string[] | null> {
+  try {
+    const res = await axios.get("/api/home/new-tasks");
+    return res.data.map((task: ITask) => task.text);
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
+  }
+}
+
+async function getNewLists(): Promise<string[] | null> {
+  try {
+    const res = await axios.get("/api/home/new-lists");
+    return res.data.map((list: IList) => list.title);
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Unknown error";
+    throw new Error(message);
+  }
+}
+
 export const ListService = {
   getAllLists,
   getListByListId,
@@ -75,4 +98,6 @@ export const ListService = {
   submitChangedList,
   deleteList,
   addList,
+  getNewTasks,
+  getNewLists,
 };

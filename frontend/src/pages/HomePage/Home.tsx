@@ -1,14 +1,24 @@
+import { useContext } from "react";
 import { Clock } from "./Clock";
-import { LatestAdds } from "./LatestAdds";
+import { RecentAdd } from "./RecentAdd/RecentAdd";
+import { AuthContext } from "../../context/AuthContext";
 
 export const Home = () => {
+  const { currentUser, isAuthenticated } = useContext(AuthContext);
+
   return (
     <div>
-      <div>Hello, *name*</div>
-      <div>
-        <Clock />
-        <LatestAdds />
-      </div>
+      {isAuthenticated ? (
+        <div>
+          <div>Hello, {currentUser?.username}</div>
+          <div>
+            <Clock />
+            <RecentAdd />
+          </div>
+        </div>
+      ) : (
+        <div>not logged in</div>
+      )}
     </div>
   );
 };

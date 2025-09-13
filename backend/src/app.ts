@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import db from "./config/db";
 
+import homeRoute from "./routes/home";
 import listsRoute from "./routes/my-lists";
 import editListRoute from "./routes/edit-list";
 import authRoute from "./routes/auth";
@@ -23,6 +24,7 @@ app.use(cors({ credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
+apiRouter.use("/home", homeRoute);
 apiRouter.use("/my-lists", listsRoute);
 apiRouter.use("/edit-list", editListRoute);
 apiRouter.use("/auth", authRoute);
