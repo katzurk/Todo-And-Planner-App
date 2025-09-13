@@ -135,4 +135,78 @@ describe("GET /api/auth/verify", () => {
   });
 });
 
-describe("DELETE /api/auth/logout", () => {});
+describe("PUT /api/auth/edit-username", () => {
+  it("changes the username correctly", async () => {
+    mockedQuery.mockResolvedValue({
+      rowCount: 0,
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
+
+    const res = await request(app)
+      .put("/api/auth/edit-username")
+      .send(mockData.usernameData);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.message).toEqual("The username has been changed");
+  });
+
+  it("returns error 401 if username is taken", async () => {
+    mockedQuery.mockResolvedValue({
+      rowCount: 1,
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
+
+    const res = await request(app)
+      .put("/api/auth/edit-username")
+      .send(mockData.usernameData);
+
+    expect(res.statusCode).toBe(401);
+    expect(res.body.message).toEqual(
+      "User with this email or username already exists"
+    );
+  });
+});
+
+describe("PUT /api/auth/edit-password", () => {
+  it("changes password correctly", async () => {
+    jest.spyOn(bcrypt as any, "compare").mockResolvedValue(true);
+    mockedQuery.mockResolvedValue({
+      rows: mockData.passwordHash,
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
+
+    const res = await request(app)
+      .put("/api/auth/edit-password")
+      .send(mockData.passwordData);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.message).toEqual("The password has been changed");
+  });
+
+  it("returns error 401 if old password is incorrect", async () => {
+    jest.spyOn(bcrypt as any, "compare").mockResolvedValue(false);
+    mockedQuery.mockResolvedValue({
+      rows: mockData.passwordHash,
+    });
+    mockedAuth.mockImplementation((req, res, next) => {
+      req.user = 1;
+      next();
+    });
+
+    const res = await request(app)
+      .put("/api/auth/edit-password")
+      .send(mockData.passwordData);
+
+    expect(res.statusCode).toBe(401);
+    expect(res.body.message).toEqual("Current password is incorrect");
+  });
+});

@@ -33,10 +33,28 @@ const registeredUser = [
   },
 ];
 
+const usernameData = {
+  newUsername: "change",
+};
+
+const passwordData = {
+  currentPassword: "test1",
+  newPassword: "test2",
+};
+
+const passwordHash = [
+  {
+    password_hash: "test1",
+  },
+];
+
 export default {
   currentUser,
   loginData,
   foundUser,
   registerData,
   registeredUser,
+  usernameData,
+  passwordData,
+  passwordHash,
 };
