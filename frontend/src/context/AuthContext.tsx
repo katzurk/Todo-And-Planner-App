@@ -39,7 +39,11 @@ export const AuthProvider = ({ children }: Props) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { data: currentUser, isLoading } = useQuery({
+  const {
+    data: currentUser,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["currentUser"],
     queryFn: UserService.getUser,
     retry: false,
@@ -64,6 +68,10 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const isAuthenticated = !!currentUser;
+
+  if (error?.message === "Not Authorized") {
+    queryClient.setQueryData(["currentUser"], null);
+  }
 
   return (
     <AuthContext.Provider
