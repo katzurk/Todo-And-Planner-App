@@ -333,3 +333,58 @@ button.form-element {
   width: 100%;
   margin-bottom: 20px;
 }
+
+/* home page */
+.home {
+  background-color: var(--bg);
+  border: solid, var(--border);
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  width: 80vw;
+  max-width: 800px;
+  min-width: 320px;
+  margin: 20px auto;
+  gap: 10px;
+}
+
+.home-element {
+  background-color: var(--bg);
+  border: solid, var(--border);
+  border-radius: 20px;
+  padding: 10px;
+  margin: 20px auto;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.home-side {
+  flex: 1;
+  margin-left: 0;
+}
+
+.welcome-box {
+  flex: 1;
+  margin-right: 5px;
+}
+
+/* clock */
+.clock {
+  background-color: var(--btn);
+  border: solid, var(--border);
+}
+
+.clock h1 {
+  color: var(--surface);
+  font-size: 70px;
+  letter-spacing: 8px;
+  font-weight: 500;
+}
+
+.clock p {
+  color: var(--border);
+}
+
+.recent-adds {
+  text-align: left;
+}

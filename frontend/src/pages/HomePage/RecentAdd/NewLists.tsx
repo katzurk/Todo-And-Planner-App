@@ -20,7 +20,7 @@ export const NewListsComponent = () => {
   }
 
   return (
-    <div>
+    <div className="home-element">
       <h4>new lists</h4>
       {data?.map((title: string) => (
         <p>{title}</p>

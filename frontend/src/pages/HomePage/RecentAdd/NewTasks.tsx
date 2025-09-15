@@ -20,7 +20,7 @@ export const NewTasksComponent = () => {
   }
 
   return (
-    <div>
+    <div className="home-element">
       <h4>new tasks</h4>
       {data?.map((text: string) => (
         <p>{text}</p>

@@ -17,21 +17,29 @@ export const MyProfile = () => {
   }
 
   return (
-    <div>
-      <i className="bi bi-person-circle usericon"></i>
-      <h1>Profile</h1>
-      {currentUser && (
+    <div className="home">
+      <div>
+        <h1>
+          <i className="bi bi-person-circle usericon"></i> Profile
+        </h1>
         <div>
-          <h4>username: {currentUser.username}</h4>
-          <h4>email: {currentUser.email}</h4>
-          <h4>
-            registration date:{" "}
-            {new Date(currentUser.date_registered).toLocaleDateString()}
-          </h4>
+          {currentUser && (
+            <div>
+              <h4>username: {currentUser.username}</h4>
+              <h4>email: {currentUser.email}</h4>
+              <h4>
+                registration date:{" "}
+                {new Date(currentUser.date_registered).toLocaleDateString()}
+              </h4>
+            </div>
+          )}
         </div>
-      )}
-      <button onClick={() => setUsernameModal(true)}>Change username</button>
-      <button onClick={() => setPasswordModal(true)}>Reset password</button>
+      </div>
+
+      <div className="home-side">
+        <button onClick={() => setUsernameModal(true)}>Change username</button>
+        <button onClick={() => setPasswordModal(true)}>Reset password</button>
+      </div>
 
       <EditUsernameModal
         usernameModal={usernameModal}
