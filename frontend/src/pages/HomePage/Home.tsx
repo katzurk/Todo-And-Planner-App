@@ -23,7 +23,7 @@ export const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="home-element side">
+          <div className="home-side">
             <Clock />
             <RecentAdd />
           </div>

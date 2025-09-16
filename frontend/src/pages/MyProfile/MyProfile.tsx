@@ -18,29 +18,33 @@ export const MyProfile = () => {
 
   return (
     <div className="home">
-      <div className="profile home-element">
-        <h1>
-          <i className="bi bi-person-circle usericon"></i> My Profile
-        </h1>
-        <div>
-          {currentUser && (
-            <div>
-              <h4>username: {currentUser.username}</h4>
-              <h4>email: {currentUser.email}</h4>
-              <h4>
-                registration date:{" "}
-                {new Date(currentUser.date_registered).toLocaleDateString()}
-              </h4>
-            </div>
-          )}
-        </div>
-      </div>
-
       <div className="home-element">
-        <button onClick={() => setUsernameModal(true)}>Change username</button>
-        <button className="delete-btn" onClick={() => setPasswordModal(true)}>
-          Reset password
-        </button>
+        <div className="profile">
+          <h1>
+            <i className="bi bi-person-circle usericon"></i> My Profile
+          </h1>
+          <div>
+            {currentUser && (
+              <div>
+                <h4>username: {currentUser.username}</h4>
+                <h4>email: {currentUser.email}</h4>
+                <h4>
+                  registration date:{" "}
+                  {new Date(currentUser.date_registered).toLocaleDateString()}
+                </h4>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="home-element">
+          <button onClick={() => setUsernameModal(true)}>
+            Change username
+          </button>
+          <button className="delete-btn" onClick={() => setPasswordModal(true)}>
+            Reset password
+          </button>
+        </div>
       </div>
 
       <EditUsernameModal

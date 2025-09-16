@@ -355,7 +355,6 @@ button.form-element {
 
 .home-element {
   background-color: var(--bg);
-  border: solid, var(--border);
   border-radius: 20px;
   padding: 10px;
   margin: 20px auto;
@@ -399,6 +398,7 @@ button.form-element {
 
 .recent-adds {
   background-color: var(--surface);
+  border: solid, var(--border);
   text-align: left;
 }
 
@@ -443,8 +443,10 @@ button.form-element {
 
 .profile {
   background-color: var(--surface);
+  border: solid, var(--border);
+  border-radius: 10px;
   text-align: left;
-  padding: 5px;
+  padding: 20px;
 }
 
 .profile h1 {
