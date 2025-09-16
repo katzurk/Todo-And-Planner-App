@@ -18,9 +18,9 @@ export const MyProfile = () => {
 
   return (
     <div className="home">
-      <div>
+      <div className="profile home-element">
         <h1>
-          <i className="bi bi-person-circle usericon"></i> Profile
+          <i className="bi bi-person-circle usericon"></i> My Profile
         </h1>
         <div>
           {currentUser && (
@@ -36,9 +36,11 @@ export const MyProfile = () => {
         </div>
       </div>
 
-      <div className="home-side">
+      <div className="home-element">
         <button onClick={() => setUsernameModal(true)}>Change username</button>
-        <button onClick={() => setPasswordModal(true)}>Reset password</button>
+        <button className="delete-btn" onClick={() => setPasswordModal(true)}>
+          Reset password
+        </button>
       </div>
 
       <EditUsernameModal

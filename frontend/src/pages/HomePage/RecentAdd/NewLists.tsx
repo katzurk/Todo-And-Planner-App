@@ -20,10 +20,12 @@ export const NewListsComponent = () => {
   }
 
   return (
-    <div className="home-element">
+    <div className="home-element recent-list">
       <h4>new lists</h4>
-      {data?.map((title: string) => (
-        <p>{title}</p>
+      {data?.map((title: string, index: number) => (
+        <p>
+          {index + 1}. {title}
+        </p>
       ))}
     </div>
   );

@@ -37,6 +37,24 @@ button {
   color: var(--text);
 }
 
+.link {
+  text-decoration: none;
+}
+
+.link h3,
+.link h4 {
+  margin-bottom: 20px;
+}
+
+.link:hover h3,
+.link:hover h4 {
+  background-color: var(--border-accent);
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--text);
+  font-size: 1.5em;
+}
+
 body {
   background-color: var(--bg);
 }
@@ -206,6 +224,7 @@ button.add-list-button {
   border-top: none;
   padding: 20px;
 }
+
 /* edit-list */
 
 .form-element {
@@ -318,22 +337,6 @@ button.form-element {
   padding: 5px;
 }
 
-/* my profile */
-.usericon {
-  font-size: 80px;
-  color: var(--text-accent);
-}
-
-.unstyled-form {
-  all: initial;
-  font: inherit;
-}
-
-.unstyled-form input {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
 /* home page */
 .home {
   background-color: var(--bg);
@@ -342,8 +345,10 @@ button.form-element {
   padding: 10px;
   display: flex;
   width: 80vw;
+  height: fit-content;
   max-width: 800px;
   min-width: 320px;
+  min-height: max-content;
   margin: 20px auto;
   gap: 10px;
 }
@@ -368,6 +373,12 @@ button.form-element {
   margin-right: 5px;
 }
 
+.home button {
+  padding: 20px 40px;
+  font-size: 25px;
+  margin: 20px;
+}
+
 /* clock */
 .clock {
   background-color: var(--btn);
@@ -383,8 +394,67 @@ button.form-element {
 
 .clock p {
   color: var(--border);
+  font-weight: bold;
 }
 
 .recent-adds {
+  background-color: var(--surface);
   text-align: left;
+}
+
+.recent-adds h4 {
+  color: var(--text);
+}
+
+.recent-list {
+  border-radius: 10px;
+}
+
+.recent-list h4 {
+  border-bottom: solid var(--border-accent);
+  color: var(--text-accent);
+}
+
+.recent-list p {
+  border-bottom: solid var(--border);
+}
+
+.listing {
+  text-align: left;
+  margin-top: 50px;
+}
+
+/* my profile */
+.usericon {
+  font-size: 80px;
+  padding: 10px;
+  margin-right: 5px;
+}
+
+.unstyled-form {
+  all: initial;
+  font: inherit;
+}
+
+.unstyled-form input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.profile {
+  background-color: var(--surface);
+  text-align: left;
+  padding: 5px;
+}
+
+.profile h1 {
+  font-weight: bold;
+  border-bottom: solid var(--border-accent);
+  margin-bottom: 20px;
+  letter-spacing: 5px;
+}
+
+.profile h4 {
+  color: var(--text);
+  margin: 5px;
 }

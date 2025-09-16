@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Clock } from "./Clock";
 import { RecentAdd } from "./RecentAdd/RecentAdd";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const { currentUser, isAuthenticated } = useContext(AuthContext);
@@ -13,7 +13,15 @@ export const Home = () => {
       {isAuthenticated ? (
         <div className="home">
           <div className="home-element welcome-box">
-            Hello, {currentUser?.username}
+            <h3>Hello, {currentUser?.username}</h3>
+            <div className="listing">
+              <Link to="/my-lists" className="link">
+                <h4>• My lists</h4>
+              </Link>
+              <Link to="/my-profile" className="link">
+                <h4>• My profile</h4>
+              </Link>
+            </div>
           </div>
           <div className="home-element side">
             <Clock />
@@ -22,8 +30,8 @@ export const Home = () => {
         </div>
       ) : (
         <div className="home">
-          <h3>not logged in</h3>
-          <div>
+          <div className="home-element">
+            <h3>Welcome to the ToDo Planner website.</h3>
             <button onClick={() => navigate("/login")}>Sign in</button>
             <button onClick={() => navigate("/register")}>Sign up</button>
           </div>

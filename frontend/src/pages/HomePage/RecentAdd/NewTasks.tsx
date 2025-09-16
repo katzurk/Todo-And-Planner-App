@@ -20,10 +20,12 @@ export const NewTasksComponent = () => {
   }
 
   return (
-    <div className="home-element">
+    <div className="home-element recent-list">
       <h4>new tasks</h4>
-      {data?.map((text: string) => (
-        <p>{text}</p>
+      {data?.map((text: string, index: number) => (
+        <p>
+          {index + 1}. {text}
+        </p>
       ))}
     </div>
   );

@@ -31,15 +31,13 @@ export const Navbar = () => {
           <Offcanvas.Title>Sidebar</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Link to="/">
+          <Link to="/" className="link">
             <h3>Home</h3>
           </Link>
-          <br />
-          <Link to="/my-lists">
+          <Link to="/my-lists" className="link">
             <h3>Lists</h3>
           </Link>
-          <br />
-          <Link to="/my-profile">
+          <Link to="/my-profile" className="link">
             <h3>My Profile</h3>
           </Link>
         </Offcanvas.Body>
