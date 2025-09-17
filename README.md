@@ -14,14 +14,14 @@
 Prepare the `.env` files based on the examples.
 
 While being in the root directory of the project `ToDo-And-Planner-App` run:
-`docker-compose up --build`
+```docker-compose up --build```
 
-Next, open up the browser and type the url:
-`localhost:3000`
+With the containers running, open up the browser and type the url:
+```localhost:3000```
 
 **Tests**
 For running API tests run:
-`docker-compose run backend npm test`
+```docker-compose run backend npm test```
 
 ---
 
